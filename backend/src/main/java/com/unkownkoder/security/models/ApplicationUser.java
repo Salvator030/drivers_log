@@ -23,8 +23,10 @@ import jakarta.persistence.Table;
 public class ApplicationUser implements UserDetails{
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    private Integer userId;
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "user_id") // Name muss genau mit der DB-Spalte übereinstimmen
+	private Integer userId;
+
 	@Column(unique=true)
     private String username;
     private String password;
@@ -37,18 +39,22 @@ public class ApplicationUser implements UserDetails{
     )
     private Set<Role> authorities;
 
+	@Column(name = "tenant_id", unique = true)
+    private String tenantId;  // Neue Tenant-ID
+
     public ApplicationUser() {
 		super();
 		authorities = new HashSet<>();
 	}
 	
 
-	public ApplicationUser( String username, String password, Set<Role> authorities) {
+	public ApplicationUser( String username, String password, Set<Role> authorities,  String tenantId) {
 		super();
 	
 		this.username = username;
 		this.password = password;
-		this.authorities = authorities;
+		this.authorities = authorities; 
+		this.tenantId = tenantId;
 	}
 
     public Integer getUserId() {
@@ -60,7 +66,7 @@ public class ApplicationUser implements UserDetails{
 	}
 	
 	public void setAuthorities(Set<Role> authorities) {
-		this.authorities = authorities;
+		this.authorities = authorities; 
 	}
 
 	@Override
@@ -88,6 +94,14 @@ public class ApplicationUser implements UserDetails{
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
+	public String getTenantId() {
+        return tenantId;
+    }
+
+    public void setTenantId(String tenantId) {
+        this.tenantId = tenantId;
+    }
 	
 	/* If you want account locking capabilities create variables and ways to set them for the methods below */
 	@Override
