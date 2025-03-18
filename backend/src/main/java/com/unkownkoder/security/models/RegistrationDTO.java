@@ -3,15 +3,17 @@ package com.unkownkoder.security.models;
 public class RegistrationDTO {
     private String username;
     private String password;
+    private String tenantId;
 
     public RegistrationDTO(){
         super();
     }
 
-    public RegistrationDTO(String username, String password){
+    public RegistrationDTO(String username, String password, String tenantId){
         super();
         this.username = username;
         this.password = password;
+        this.tenantId = tenantId;
     }
 
     public String getUsername(){
@@ -30,7 +32,15 @@ public class RegistrationDTO {
         this.password = password;
     }
 
+    public String getTenantId(){
+        return this.tenantId;
+    }
+
+    public void setTenantId(String tenantId){
+        this.tenantId = tenantId;
+    }
+
     public String toString(){
-        return "Registration info: username: " + this.username + " password: " + this.password;
+        return "Registration info: username: " + this.username + " password: " + this.password + " tenantId: " + this.tenantId;
     }
 }

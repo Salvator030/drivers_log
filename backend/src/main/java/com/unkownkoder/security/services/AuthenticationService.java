@@ -2,6 +2,7 @@ package com.unkownkoder.security.services;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,6 +18,7 @@ import com.unkownkoder.security.models.LoginResponseDTO;
 import com.unkownkoder.security.models.Role;
 import com.unkownkoder.security.repository.RoleRepository;
 import com.unkownkoder.security.repository.UserRepository;
+import com.unkownkoder.tenant.services.TenantService;
 
 @Service
 @Transactional
@@ -37,30 +39,44 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-    public ApplicationUser registerUser(String username, String password){
+    @Autowired
+    private TenantService tenantService;
+    
+    @Transactional
+    public ApplicationUser registerUser(String username, String password) {
 
         String encodedPassword = passwordEncoder.encode(password);
-        Role userRole = roleRepository.findByAuthority("USER").get();
+        Role userRole = roleRepository.findByAuthority("ROLE_USER") // Beachte "ROLE_"-Präfix
+                .orElseThrow(() -> new RuntimeException("Rolle 'ROLE_USER' nicht gefunden!"));
 
         Set<Role> authorities = new HashSet<>();
 
         authorities.add(userRole);
 
-        return userRepository.save(new ApplicationUser( username, encodedPassword, authorities));
+        String uuid = UUID.randomUUID().toString();
+        ApplicationUser user = new ApplicationUser(username, encodedPassword, authorities, uuid);
+        try {
+            tenantService.createTenantDatabase(uuid);
+        } catch (Exception e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+        return userRepository.save(user);
     }
 
-    public LoginResponseDTO loginUser(String username, String password){
+    public LoginResponseDTO loginUser(String username, String password) {
 
-        try{
+        try {
             Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(username, password)
             );
 
             String token = tokenService.generateJwt(auth);
 
             return new LoginResponseDTO(userRepository.findByUsername(username).get(), token);
 
-        } catch(AuthenticationException e){
+        } catch (AuthenticationException e) {
             return new LoginResponseDTO(null, "");
         }
     }
