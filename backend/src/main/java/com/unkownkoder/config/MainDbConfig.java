@@ -16,9 +16,9 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages ="com.unkownkoder.security.repository", // Nur Haupt-DB-Entities
-    entityManagerFactoryRef = "mainEntityManager",
-    transactionManagerRef = "mainTransactionManager"
+        basePackages = "com.unkownkoder.security.repository", // Nur Haupt-DB-Entities
+        entityManagerFactoryRef = "mainEntityManager",
+        transactionManagerRef = "mainTransactionManager"
 )
 public class MainDbConfig {
 
@@ -26,7 +26,12 @@ public class MainDbConfig {
     @Bean(name = "mainDataSource")
     @ConfigurationProperties(prefix = "spring.datasource.main")
     public DataSource mainDataSource() {
-        return DataSourceBuilder.create().build();
+        return DataSourceBuilder.create()
+                .url("jdbc:mysql://localhost:3306/login_db")
+                .username("root")
+                .password("")
+                .driverClassName("com.mysql.cj.jdbc.Driver")
+                .build();
     }
 
     // EntityManager für die Haupt-DB
@@ -38,8 +43,8 @@ public class MainDbConfig {
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();
-        props.put("hibernate.hbm2ddl.auto", "none");
-        props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); 
+        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
         em.setJpaProperties(props);
 
         return em;

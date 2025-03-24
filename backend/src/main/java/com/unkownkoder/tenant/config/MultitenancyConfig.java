@@ -22,7 +22,7 @@ import com.unkownkoder.tenant.TenantContext;
 
 @Configuration
 @EnableJpaRepositories(
-    basePackages = "com.unkownkoder.repository", // Tenant-Repositories
+    basePackages = "com.unkownkoder.repositorys", // Tenant-Repositories
     entityManagerFactoryRef = "tenantEntityManager",
     transactionManagerRef = "tenantTransactionManager"
 )
@@ -42,35 +42,44 @@ public class MultitenancyConfig {
     @Primary
     public DataSource dataSource() {
         AbstractRoutingDataSource routingDataSource = new AbstractRoutingDataSource() {
-            private final Map<Object, Object> dynamicDataSources = new HashMap<>();
-
-            {
-                // Initial nur die Master-DB
-                dynamicDataSources.put("master", masterDataSource());
-                this.setTargetDataSources(dynamicDataSources);
-                this.setDefaultTargetDataSource(masterDataSource());
-            }
-
             @Override
             protected Object determineCurrentLookupKey() {
-                return TenantContext.getCurrentTenant() != null 
-                        ? TenantContext.getCurrentTenant() 
-                        : "master";
+                return TenantContext.getCurrentTenant();
             }
+            // private final Map<Object, Object> dynamicDataSources = new HashMap<>();
 
-            @Override
-            protected DataSource determineTargetDataSource() {
-                String tenantId = (String) determineCurrentLookupKey();
-                if (!dynamicDataSources.containsKey(tenantId)) {
-                    DataSource tenantDataSource = createTenantDataSource(tenantId);
-                    dynamicDataSources.put(tenantId, tenantDataSource);
-                    super.afterPropertiesSet(); // Wichtig: DataSources aktualisieren
-                }
-                return (DataSource) dynamicDataSources.get(tenantId);
-            }
+            // {
+            //     // Initial nur die Master-DB
+            //     dynamicDataSources.put("master", masterDataSource());
+            //     this.setTargetDataSources(dynamicDataSources);
+            //     this.setDefaultTargetDataSource(masterDataSource());
+            // }
+
+            // @Override
+            // protected Object determineCurrentLookupKey() {
+            //     return TenantContext.getCurrentTenant() != null 
+            //             ? TenantContext.getCurrentTenant() 
+            //             : "master";
+            // }
+
+            // @Override
+            // protected DataSource determineTargetDataSource() {
+            //     String tenantId = (String) determineCurrentLookupKey();
+            //     if (!dynamicDataSources.containsKey(tenantId)) {
+            //         DataSource tenantDataSource = createTenantDataSource(tenantId);
+            //         dynamicDataSources.put(tenantId, tenantDataSource);
+            //         super.afterPropertiesSet(); // Wichtig: DataSources aktualisieren
+            //     }
+            //     return (DataSource) dynamicDataSources.get(tenantId);
+            // }
         };
+          Map<Object, Object> targetDataSources = new HashMap<>();
+        targetDataSources.put("master", masterDataSource());
 
+        routingDataSource.setTargetDataSources(targetDataSources);
+        routingDataSource.setDefaultTargetDataSource(masterDataSource());
         routingDataSource.afterPropertiesSet();
+        
         return routingDataSource;
     }
 
@@ -98,6 +107,7 @@ public class MultitenancyConfig {
 
         Properties props = new Properties();
         props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); 
         em.setJpaProperties(props);
 
         return em;
