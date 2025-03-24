@@ -23,7 +23,7 @@ import jakarta.persistence.Table;
 public class ApplicationUser implements UserDetails{
 
     @Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "user_id") // Name muss genau mit der DB-Spalte übereinstimmen
 	private Integer userId;
 
