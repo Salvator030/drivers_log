@@ -1,4 +1,4 @@
-package com.unkownkoder.config;
+package com.unkownkoder.security.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
