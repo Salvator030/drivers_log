@@ -1,5 +1,5 @@
 -- Tabelle für gefahrene Routen (abhängig von routes)
-CREATE TABLE driven_routes (
+CREATE TABLE IF NOT EXISTS driven_routes (
     driven_route_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     date DATE NOT NULL,
     route_id BIGINT NOT NULL,

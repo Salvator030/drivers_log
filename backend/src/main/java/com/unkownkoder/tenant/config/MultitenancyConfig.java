@@ -106,7 +106,7 @@ public class MultitenancyConfig {
         em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();
-        props.put("hibernate.hbm2ddl.auto", "update");
+        props.put("hibernate.hbm2ddl.auto", "none");
         props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect"); 
         em.setJpaProperties(props);
 

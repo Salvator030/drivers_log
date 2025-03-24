@@ -63,6 +63,8 @@ public class TenantService {
             Flyway flyway = Flyway.configure()
                     .dataSource(newDbDataSource)
                     .locations("classpath:db/migration/tenant")
+                    .baselineOnMigrate(true) // Wichtig!
+                    .baselineVersion("0")  
                     .load();
             flyway.migrate();
 

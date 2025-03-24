@@ -1,5 +1,5 @@
 -- Tabelle für Adressen (abhängig von streets, places, plz)
-CREATE TABLE addresses (
+CREATE TABLE IF NOT EXISTS addresses (
     address_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     house_number VARCHAR(50) NOT NULL,
