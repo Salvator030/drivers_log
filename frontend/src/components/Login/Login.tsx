@@ -1,6 +1,6 @@
 import { useForm } from "@mantine/form";
-import { PasswordInput, TextInput, Button, Group } from "@mantine/core";
-
+import { PasswordInput, TextInput, Button, Group, Title, Container } from "@mantine/core";
+import { IconEye, IconEyeOff } from '@tabler/icons-react';
 export function Login() {
   const form = useForm({
     mode: "uncontrolled",
@@ -13,12 +13,12 @@ export function Login() {
       password: (value: string) =>
         /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{7,}$/.test(value)
           ? null
-          : "Invalid password",
+          : "Password must heve at least 7 characters, one uppercase letter, one number and one special character",
     },
   });
   return (
-    <div>
-      <h1>Login</h1>
+    <Container size="xs" >
+      <Title order={2}>Login</Title>
       <form onSubmit={form.onSubmit(console.log)}>
         <TextInput
           label="Name"
@@ -32,13 +32,16 @@ export function Login() {
           placeholder="Password"
           key={form.key("password")}
           {...form.getInputProps("password")}
+          visibilityToggleIcon={({ reveal }) => (
+            reveal ? <IconEye size={20} /> : <IconEyeOff size={20} />
+          )}
         />
-        <Group justify="center" mt="xl">
-          <Button type="submit" mt="sm" variant="filled">
+        <Group justify="center" mt="xs">
+          <Button type="submit" mt="xs" variant="filled">
             Submit
           </Button>
         </Group>
       </form>
-    </div>
+    </Container>
   );
 }

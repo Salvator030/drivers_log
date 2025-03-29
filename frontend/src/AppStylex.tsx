@@ -43,6 +43,16 @@ export const theme =   createTheme({
     fontFamily: 'Roboto, sans-serif',
     sizes: {
       h1: { fontSize: rem(50) },
+      h2: { fontSize: rem(40) },
+    },
+  },
+
+  components: {
+    Button: {
+      defaultProps: {
+        variant: 'filled',
+        
+      },
     },
   },
 
