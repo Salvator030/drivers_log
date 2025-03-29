@@ -1,7 +1,6 @@
 import { createTheme, rem } from '@mantine/core';
 
-function theme(){
- return createTheme({
+export const theme =   createTheme({
   
   colors: {
     // Add your color
@@ -32,6 +31,9 @@ function theme(){
     ],
   },
 
+  primaryColor: 'blue',
+  primaryShade: 6,
+
   shadows: {
     md: '1px 1px 3px rgba(0, 0, 0, .25)',
     xl: '5px 5px 3px rgba(0, 0, 0, .25)',
@@ -44,7 +46,6 @@ function theme(){
     },
   },
 
-});
-}
+ 
 
-export default theme;
+});

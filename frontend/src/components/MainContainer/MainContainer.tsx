@@ -1,10 +1,12 @@
 import classes from './MainContainer.module.css';
+import {Login} from '../Login/Login';
+import { Title } from '@mantine/core';
 
 export function MainContainer () {
   return (
     <div className="main-container">
-      <h1 className={classes.h1}>Drivers Log</h1>
-      <p>This is the main container area.</p>
+   <Title order={1}>Drivers Log</Title> 
+      <Login/>
     </div>
   );
 }
