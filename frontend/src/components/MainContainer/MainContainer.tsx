@@ -1,12 +1,21 @@
+import { use, useState } from "react";
+import { Registration } from "../Authentication/Registration/Registration";
+import { Button, Title } from "@mantine/core";
+import { Login } from "../Authentication/Login/Login";
+import { Authentication } from "../Authentication/Authentication";
+import { useJwtStore } from "../../hooks/useJwtStore";
+import { DriversLog } from "../DriversLog/DriversLog";
 
-import {Registration} from '../Registration/Registration';
-import { Title } from '@mantine/core';
+export function MainContainer() {
 
-export function MainContainer () {
+  const jwt = useJwtStore((state) => state.jwt); // Zustand-Hook zum Abrufen des JWT-Token
+
+
   return (
     <>
-   <Title order={1}>Drivers Log</Title> 
-      <Registration/>
+      <Title order={1}>Drivers Log</Title>
+      {jwt != null ?  <DriversLog/> : <Authentication/>}
+      
     </>
   );
 }
