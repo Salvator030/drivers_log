@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --mantine-color-blue-filled: #228be6 !important; /* Mantine-Standardblau */
+  --mantine-color-blue-filled-hover: #1c7ed6 !important;
+}

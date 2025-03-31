@@ -1,10 +1,21 @@
-import classes from './MainContainer.module.css';
+import { use, useState } from "react";
+import { Registration } from "../Authentication/Registration/Registration";
+import { Button, Title } from "@mantine/core";
+import { Login } from "../Authentication/Login/Login";
+import { Authentication } from "../Authentication/Authentication";
+import { useJwtStore } from "../../hooks/useJwtStore";
+import { DriversLog } from "../DriversLog/DriversLog";
 
-export function MainContainer () {
+export function MainContainer() {
+
+  const jwt = useJwtStore((state) => state.jwt); // Zustand-Hook zum Abrufen des JWT-Token
+
+
   return (
-    <div className="main-container">
-      <h1 className={classes.h1}>Drivers Log</h1>
-      <p>This is the main container area.</p>
-    </div>
+    <>
+      <Title order={1}>Drivers Log</Title>
+      {jwt != null ?  <DriversLog/> : <Authentication/>}
+      
+    </>
   );
 }
