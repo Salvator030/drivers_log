@@ -3,9 +3,9 @@ import { Container, createTheme, px, rem } from "@mantine/core";
 export const theme = createTheme({
   colors: {
     // Add your color
-    deepBlue: [
-      "#eef3ff",
-      "#dce4f5",
+    own: [
+      "#ffffff",
+      "#f2f2f2",
       "#b9c7e2",
       "#94a8d0",
       "#748dc1",

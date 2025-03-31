@@ -1,7 +1,19 @@
-import { Title } from "@mantine/core";
+import { Grid } from "@mantine/core";
+import { NavbarSimple } from "./NavbarSimple/NavbarSimple";
+import { MainView } from "./MainView/MainView";
 
 export function DriversLog() {
-    return (
-        <Title order={2}>Welcome back!</Title>
-    )
+
+  return (
+    <>
+      <Grid>
+        <Grid.Col span="content">
+          <NavbarSimple />
+        </Grid.Col>
+        <Grid.Col span="auto">
+          <MainView />
+        </Grid.Col>
+      </Grid>
+    </>
+  );
 }
