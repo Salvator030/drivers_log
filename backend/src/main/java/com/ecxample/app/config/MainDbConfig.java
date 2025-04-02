@@ -1,4 +1,4 @@
-package com.ecxample.config;
+package com.ecxample.app.config;
 
 import java.util.Properties;
 

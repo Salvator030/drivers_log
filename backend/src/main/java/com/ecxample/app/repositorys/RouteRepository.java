@@ -1,12 +1,12 @@
-package com.ecxample.repositorys;
+package com.ecxample.app.repositorys;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ecxample.models.Address;
-import com.ecxample.models.Route;
+import com.ecxample.app.models.Address;
+import com.ecxample.app.models.Route;
 
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long>{

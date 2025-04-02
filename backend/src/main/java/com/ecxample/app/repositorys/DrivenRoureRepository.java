@@ -1,4 +1,4 @@
-package com.ecxample.repositorys;
+package com.ecxample.app.repositorys;
 
 import java.sql.Date;
 import java.util.Optional;
@@ -6,8 +6,8 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ecxample.models.DrivenRoute;
-import com.ecxample.models.Route;
+import com.ecxample.app.models.DrivenRoute;
+import com.ecxample.app.models.Route;
 
 @Repository
 public interface DrivenRoureRepository extends JpaRepository<DrivenRoute, Long>{

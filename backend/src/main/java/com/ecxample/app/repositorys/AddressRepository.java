@@ -1,14 +1,14 @@
-package com.ecxample.repositorys;
+package com.ecxample.app.repositorys;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ecxample.models.Address;
-import com.ecxample.models.Place;
-import com.ecxample.models.Plz;
-import com.ecxample.models.Street;
+import com.ecxample.app.models.Address;
+import com.ecxample.app.models.Place;
+import com.ecxample.app.models.Plz;
+import com.ecxample.app.models.Street;
 
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long>{

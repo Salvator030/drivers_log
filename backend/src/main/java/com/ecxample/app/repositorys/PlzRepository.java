@@ -1,11 +1,11 @@
-package com.ecxample.repositorys;
+package com.ecxample.app.repositorys;
 
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.ecxample.models.Plz;
+import com.ecxample.app.models.Plz;
 
 @Repository
 public interface PlzRepository extends JpaRepository<Plz, Long>{
