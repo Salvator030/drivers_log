@@ -57,9 +57,11 @@ public class AddressService {
         if (body.getExistingPlzId() != null) {
             plz = plzRepository.findByPlzId(body.getExistingPlzId())
                     .orElseThrow(() -> new RuntimeException("Plz mit ID " + body.getExistingPlzId() + " nicht gefunden"));
-            address.setPlz(plz);
+          
         } else {
-            plz = plzRepository.save(new Plz(body.getPlz()));
+            String plzValue = body.getPlz();
+            Optional<Plz> existingPlz = plzRepository.findByPlz(plzValue);
+            plz = existingPlz.isPresent() ? existingPlz.get() :  plzRepository.save(new Plz(body.getPlz()));
         }
         address.setPlz(plz);
 
@@ -69,7 +71,9 @@ public class AddressService {
                     .orElseThrow(() -> new RuntimeException("Place mit ID " + body.getExistingPlaceId() + " nicht gefunden"));
             address.setPlace(place);
         } else {
-            place = placeRepository.save(new Place(body.getPlace()));
+            String plaveName = body.getPlace();
+            Optional<Place> existingPlace = placeRepository.findByName(plaveName);
+            place = existingPlace.isPresent() ? existingPlace.get() :  placeRepository.save(new Place(body.getPlace()));
         }
         address.setPlace(place);
 
