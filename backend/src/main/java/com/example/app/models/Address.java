@@ -24,6 +24,7 @@ public class Address {
     @JoinColumn(name = "street_id") // Name de
     private Street street;
 
+    @Column(name="house_number")
     private String houseNumber;
 
     @ManyToOne 
