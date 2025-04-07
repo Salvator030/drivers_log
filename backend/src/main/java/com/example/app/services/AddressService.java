@@ -1,6 +1,8 @@
 package com.example.app.services;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,11 +59,11 @@ public class AddressService {
         if (body.getExistingPlzId() != null) {
             plz = plzRepository.findByPlzId(body.getExistingPlzId())
                     .orElseThrow(() -> new RuntimeException("Plz mit ID " + body.getExistingPlzId() + " nicht gefunden"));
-          
+
         } else {
             String plzValue = body.getPlz();
             Optional<Plz> existingPlz = plzRepository.findByPlz(plzValue);
-            plz = existingPlz.isPresent() ? existingPlz.get() :  plzRepository.save(new Plz(body.getPlz()));
+            plz = existingPlz.isPresent() ? existingPlz.get() : plzRepository.save(new Plz(body.getPlz()));
         }
         address.setPlz(plz);
 
@@ -73,7 +75,7 @@ public class AddressService {
         } else {
             String plaveName = body.getPlace();
             Optional<Place> existingPlace = placeRepository.findByName(plaveName);
-            place = existingPlace.isPresent() ? existingPlace.get() :  placeRepository.save(new Place(body.getPlace()));
+            place = existingPlace.isPresent() ? existingPlace.get() : placeRepository.save(new Place(body.getPlace()));
         }
         address.setPlace(place);
 
@@ -83,4 +85,34 @@ public class AddressService {
 
     }
 
+    public List<AddressDTO> getAllAddresses() {
+        List<Address> addresses = addressRepository.findAll();
+        return addresses.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private AddressDTO convertToDTO(Address address) {
+        AddressDTO dto = new AddressDTO();
+        dto.setAddressId(address.getAddressId());
+
+        dto.setName(address.getName());
+        dto.setStreet(address.getStreet().getStreetName());
+        dto.setExistingStreetsId(address.getStreet().getStreetId());
+        dto.setHouseNumber(address.getHouseNumber());
+        dto.setPlz(address.getPlz().getPlz());
+        dto.setExistingPlzId(address.getPlz().getPlzId());
+
+        dto.setPlace(address.getPlace().getName());
+        dto.setExistingPlaceId(address.getPlace().getPlaceId());
+        dto.setInfo(address.getInfo());
+
+        return dto;
+    }
+
+    public AddressDTO createAddress(AddressDTO addressDTO) {
+        Address address = convertToEtentity(addressDTO); // Konvertiere DTO → Entity
+        Address savedAddress = addressRepository.save(address);
+        return convertToDTO(savedAddress); // Konvertiere Entity → DTO mit ID
+    }
 }
