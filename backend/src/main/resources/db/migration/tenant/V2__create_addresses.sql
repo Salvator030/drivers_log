@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS addresses (
     address_id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     house_number VARCHAR(50) NOT NULL,
+    info TEXT,
     street_id BIGINT NOT NULL,
     plz_id BIGINT NOT NULL,
     place_id BIGINT NOT NULL,
