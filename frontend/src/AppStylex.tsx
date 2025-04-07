@@ -1,4 +1,4 @@
-import { Container, createTheme, px, rem } from "@mantine/core";
+import { Container, createTheme, Group, px, rem } from "@mantine/core";
 
 export const theme = createTheme({
   colors: {
@@ -58,5 +58,11 @@ export const theme = createTheme({
         styles: { root: { margin: px(8) } },
       },
     },
+
+    // Group: {
+    //   defaultProps: {
+    //     styles: { root: { marginTop: px(8) } },
+    //   },
+    // },
   },
 });
