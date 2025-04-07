@@ -53,17 +53,16 @@ export function NewRouteModal() {
 
   const { handleNewRoute } = useApi();
 
-  const handleOkBtn =async () => {   
-    const validationError =field.validate();
+  const handleOkBtn = async () => {
+    const validationError = field.validate();
     if (
       !validationError.then((res) => {
         const dist = parseFloat(field.getValue().replace(",", "."));
-        setDistance(dist);   
+        setDistance(dist);
       })
     ) {
-
     }
-  }
+  };
 
   const handleSaveBtn = () => {
     const route: Route = {
@@ -84,21 +83,25 @@ export function NewRouteModal() {
       opened={isOpen}
       onClose={close}
       closeOnClickOutside={false}
-      size="lg"
+      size="xl"
       centered
     >
-      <Group>
-        {(!endAdress || !startAddress) && <AddressTable />}
-        {endAdress && !distance && (
-          <>
-            <TextInput label="entfenung" {...field.getInputProps()} />
-            <Button onClick={handleOkBtn}>Ok</Button>
-          </>
-        )}
+      <Grid>
+        <Grid.Col span={8}>
+          {(!endAdress || !startAddress) && <AddressTable />}
+          {endAdress && !distance && (
+            <>
+              <TextInput label="entfenung" {...field.getInputProps()} />
+              <Button onClick={handleOkBtn}>Ok</Button>
+            </>
+          )}
 
-        {distance && <Button onClick={handleSaveBtn}>Save</Button>}
-        <NewRouteTimeline />
-      </Group>
+          {distance && <Button onClick={handleSaveBtn}>Save</Button>}
+        </Grid.Col>
+        <Grid.Col span={4}>
+          <NewRouteTimeline />
+        </Grid.Col>
+      </Grid>
       <div className={classes.backBtnDiv}>
         {startAddress && <Button onClick={back}>zurück</Button>}
       </div>
