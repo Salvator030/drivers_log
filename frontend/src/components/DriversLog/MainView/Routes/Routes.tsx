@@ -1,20 +1,20 @@
-import { Table,Text } from "@mantine/core";
+import { ActionIcon, Group, rem, Stack, Table, Text, Title } from "@mantine/core";
+import { IconPlus } from "@tabler/icons-react";
+import { RoutesTable } from "./RotesTable/RoutesTable";
+import { useNewRouteModalStore } from "../../../../stores/useNewRouteModalStore";
 
-export function Routes(){
-    return(
-        <><Table>
-            <Table.Thead>
-                <Table.Tr>
-                    <Table.Th><Text>Id</Text></Table.Th>
-                    <Table.Th><Text>Start Adresse</Text></Table.Th>
-                    <Table.Th><Text>Ziel Adresse</Text></Table.Th>
-                    <Table.Th><Text>Entfernung</Text></Table.Th>
-                   
-                </Table.Tr>
-                </Table.Thead>
-            </Table>
-          
+export function Routes() {
 
-            </>
-    )
+  const setIsOpen = useNewRouteModalStore((state) => state.setIsOpen)  
+  return (
+    <>
+    <Stack>
+        <Title >Strecken</Title>
+        <RoutesTable/>
+        <ActionIcon onClick={() => setIsOpen(true)}>
+            <IconPlus />
+        </ActionIcon>
+      </Stack>
+    </>
+  );
 }
