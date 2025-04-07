@@ -1,7 +1,7 @@
 package com.example.app.models;
 
 public class AddressDTO {
-
+    private Long addressId;
     private String name;
     private Long existingStreetsId;
     private String street;
@@ -12,17 +12,16 @@ public class AddressDTO {
     private String place;
     private String info;
 
-    public AddressDTO(String name, Long existingStreetsId, String street, String houseNumber, Long existingPlzId,
-            String plz, Long existingPlaceId, String place, String info) {
-        this.name = name;
-        this.existingStreetsId = existingStreetsId;
-        this.street = street;
-        this.houseNumber = houseNumber;
-        this.existingPlzId = existingPlzId;
-        this.plz = plz;
-        this.existingPlaceId = existingPlaceId;
-        this.place = place;
-        this.info = info;
+    public AddressDTO() {
+     
+    }
+
+    public Long getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(Long addressId) {
+        this.addressId = addressId;
     }
 
     public String getName() {
