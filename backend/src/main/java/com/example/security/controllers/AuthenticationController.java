@@ -13,7 +13,7 @@ import com.example.security.models.RegistrationDTO;
 import com.example.security.services.AuthenticationService;
 
 @RestController
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 @CrossOrigin("*")
 public class AuthenticationController {
 
