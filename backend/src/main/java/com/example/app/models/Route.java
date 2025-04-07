@@ -17,8 +17,7 @@ public class Route {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "route_id")
     private Long routeId;
-
-    private String name;
+;
 
     @ManyToOne
     @JoinColumn(name = "start_address_id")
@@ -30,11 +29,11 @@ public class Route {
 
     private double distance;
 
-    protected Route() {
+    public Route() {
     }
 
-    public Route(String name, Address startAddress, Address destinationAddress, double distance) {
-        this.name = name;
+    public Route( Address startAddress, Address destinationAddress, double distance) {
+ 
         this.startAddress = startAddress;
         this.destinationAddress = destinationAddress;
         this.distance = distance;
@@ -42,14 +41,6 @@ public class Route {
 
     public Long getRouteId() {
         return routeId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Address getStartAddress() {

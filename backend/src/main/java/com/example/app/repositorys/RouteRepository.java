@@ -10,7 +10,7 @@ import com.example.app.models.Route;
 
 @Repository
 public interface RouteRepository extends JpaRepository<Route, Long>{
-    Optional<Route> findByName(String name);
+
     Optional<Route> findByRouteId(Long routeId);
     Optional<Route> findByStartAddress(Address startAddress);
     Optional<Route> findByDestinationAddress(Address destinationAddress);
