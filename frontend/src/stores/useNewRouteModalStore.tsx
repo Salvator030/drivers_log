@@ -11,14 +11,13 @@ interface NewRoutesModalState {
   startAdress: Address | null;
   endAdress: Address | null;
   distance: number | null;
-  field: UseFieldReturnType<string, "input", "controlled">,
   setIsOpen: (isOpen: boolean) => void;
   setStartAdress: (startAdress: Address | null) => void;
   setEndAdress: (endAdress: Address | null) => void;
   setDistance: (distance: number | null) => void;
   close: () => void;
   setAddress: (address: Address) => void;
-  handleOkBtn: () => void;
+
   back: () => void;
 }
 
@@ -37,12 +36,7 @@ const useNewRouteModalStore = create<NewRoutesModalState>()(
       distance: null,
       setDistance: (distance: number | null) => set({ distance }),
 
-      field: useField({
-        initialValue: "",
-        validateOnBlur: true,
-        validate: (value) =>
-          /^\d{1,}([,.]\d{1,2})?$/.test(value) ? null : "Bitte eine ZAhl",
-      }),
+    
 
       close: () => {
         set({ isOpen: false, startAdress: null, endAdress: null, distance: null });
@@ -59,20 +53,7 @@ const useNewRouteModalStore = create<NewRoutesModalState>()(
         // Wenn beide gesetzt sind: keine Aktion
       },
 
-      handleOkBtn: async () => {
-  
-        const validationError = get().field.validate();
-        if (
-          !validationError.then((res) => {
-            const dist = parseFloat(get().field.getValue().replace(",", "."));
-    
-            get().setDistance(dist);
-       
-          })
-        ) {
-    
-        }
-      },
+      
 
       
       back: ()=> {

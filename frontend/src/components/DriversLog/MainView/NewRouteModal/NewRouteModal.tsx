@@ -27,11 +27,8 @@ export function NewRouteModal() {
     startAddress,
     endAdress,
     distance,
-    field,
-    setIsOpen,
-    setDistance,
     close,
-    handleOkBtn,
+    setDistance,
     back,
   } = useNewRouteModalStore(
     useShallow((state) => ({
@@ -39,16 +36,34 @@ export function NewRouteModal() {
       startAddress: state.startAdress,
       endAdress: state.endAdress,
       distance: state.distance,
-      field: state.field,
       setIsOpen: state.setIsOpen,
       setDistance: state.setDistance,
       close: state.close,
-      handleOkBtn: state.handleOkBtn,
+
       back: state.back,
     }))
   );
 
+  const field = useField({
+    initialValue: "",
+    validateOnBlur: true,
+    validate: (value) =>
+      /^\d{1,}([,.]\d{1,2})?$/.test(value) ? null : "Bitte eine ZAhl",
+  });
+
   const { handleNewRoute } = useApi();
+
+  const handleOkBtn =async () => {   
+    const validationError =field.validate();
+    if (
+      !validationError.then((res) => {
+        const dist = parseFloat(field.getValue().replace(",", "."));
+        setDistance(dist);   
+      })
+    ) {
+
+    }
+  }
 
   const handleSaveBtn = () => {
     const route: Route = {
