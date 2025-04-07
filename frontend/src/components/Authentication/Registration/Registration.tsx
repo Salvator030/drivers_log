@@ -10,8 +10,11 @@ import {
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import axios from "axios";
 import { FormEvent } from "react";
+import { useTranslation } from "react-i18next";
 
 export function Registration() {
+const {t, i18n } = useTranslation();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -57,15 +60,15 @@ export function Registration() {
       <Title order={2}>Registration</Title>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
-          label="Username"
-          placeholder="Userame"
+          label={t('registration.username')}
+          placeholder={t('registration.username')}
           key={form.key("username")}
           {...form.getInputProps("username")}
         />
         <PasswordInput
           mt="sm"
-          label="Password"
-          placeholder="Password"
+          label={t('registration.password')}
+          placeholder={t('registration.password')}
           key={form.key("password")}
           {...form.getInputProps("password")}
           visibilityToggleIcon={({ reveal }) =>
@@ -74,14 +77,14 @@ export function Registration() {
         />
          <PasswordInput
           mt="sm"
-          label="Confirm password"
-          placeholder="Confirm password"
+          label={t('registration.confirmPassword')}
+          placeholder={t('registration.confirmPassword')}
           key={form.key('confirmPassword')}
           {...form.getInputProps('confirmPassword')}
         />
         <Group justify="center" mt="xs">
           <Button type="submit" mt="xs" variant="filled">
-            Submit
+          {t('registration.registBtn')}
           </Button>
         </Group>
       </form>

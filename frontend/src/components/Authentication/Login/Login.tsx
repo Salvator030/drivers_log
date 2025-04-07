@@ -11,10 +11,11 @@ import { useForm } from "@mantine/form";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import axios from "axios";
 import { useJwtStore } from '../../../hooks/useJwtStore';
+import { useTranslation } from 'react-i18next';
 
 export function Login() {
 const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen des JWT-Token
-
+const { t, i18n } = useTranslation();
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -59,15 +60,15 @@ const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen 
       <Title order={2}>Login</Title>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
-          label="Username"
-          placeholder="Userame"
+          label={t('login.username')}
+          placeholder={t('login.username')}
           key={form.key("username")}
           {...form.getInputProps("username")}
         />
         <PasswordInput
           mt="sm"
-          label="Password"
-          placeholder="Password"
+          label={t('login.password')}
+          placeholder={t('login.password')}
           key={form.key("password")}
           {...form.getInputProps("password")}
           visibilityToggleIcon={({ reveal }) =>
@@ -76,7 +77,7 @@ const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen 
         />
         <Group justify="center" mt="xs">
           <Button type="submit" mt="xs" variant="filled">
-            Submit
+            {t('login.loginBtn')}
           </Button>
         </Group>
       </form>

@@ -9,20 +9,23 @@ import {
 
 import classes from "./NavbarSimple.module.css";
 import { useMainContentStore } from "../../../hooks/useMainContentStore";
+import { useTranslation } from "react-i18next";
 
 
-
-const data = [
-
-  { link: "", label: "Kalender", icon: IconCalendarWeek },
-  { link: "", label: "Strecken", icon: IconRoute },
-  { link: "", label: "Einstellungen", icon: IconSettings },
-];
 
 
 
 export function NavbarSimple() {
   const  {content, setContent} = useMainContentStore();
+   
+  const { t, i18n } = useTranslation();
+const data = [
+
+  { link: "", label: t('navbarSimple.lable.calendar'), icon: IconCalendarWeek },
+  { link: "", label: t('navbarSimple.lable.routes'), icon: IconRoute },
+  { link: "", label: t('navbarSimple.lable.options'), icon: IconSettings },
+];
+
 
   const links = data.map((item) => (
     <a
