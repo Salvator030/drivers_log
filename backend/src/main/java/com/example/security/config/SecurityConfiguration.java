@@ -103,10 +103,14 @@ public class SecurityConfiguration {
                  .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/auth/**").permitAll();
-                    auth.requestMatchers("/admin/**").hasRole("ADMIN");
-                    auth.requestMatchers("/user/**").hasAnyRole("ADMIN", "USER");
-                    auth.requestMatchers("/address/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/auth/**").permitAll();
+                    auth.requestMatchers("/api/admin/**").hasRole("ADMIN");
+                    auth.requestMatchers("/api/user/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/address/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/street/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/place/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/plz/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api/route/**").hasAnyRole("ADMIN", "USER");
                     auth.anyRequest().authenticated();
                 });
         http.addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter.class);
