@@ -70,7 +70,6 @@ export const useApi = () => {
 
   const handleNewRoute = async (routeData: Route) =>{
     await createRoute(routeData);
-
   }
 
   return {

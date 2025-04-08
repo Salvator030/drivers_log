@@ -9,8 +9,11 @@ import {
 } from "@mantine/core";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { registerRequest, LogingProps } from "../../../api/auth";
+import { useTranslation } from "react-i18next";
 
 export function Registration() {
+  const { t, i18n } = useTranslation();
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -22,28 +25,26 @@ export function Registration() {
     // functions will be used to validate values at corresponding key
     validate: {
       username: (value: string) =>
-        value.length < 3 ? "Name must have at least 2 letters" : null,
+        value.length < 3 ? t("registration.validate.username") : null,
       password: (value: string) =>
         /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{7,}$/.test(value)
           ? null
-          : "Password must heve at least 7 characters, one uppercase letter, one number and one special character",
-      confirmPassword: (value: string, values: {username: string, password: string}) =>
-         value !== values.password ? 'Passwords did not match' : null,
-},
+          : t("registration.validate.password"),
+      confirmPassword: (
+        value: string,
+        values: { username: string; password: string }
+      ) =>
+        value !== values.password
+          ? t("registration.validate.confirmPwd")
+          : null,
+    },
   });
 
   const handleSubmit = async (values: LogingProps) => {
     try {
-      console.log("Form values:", values);
       const response = registerRequest(values); // API-Request
-      // Weiterleitung zur Login-Seite oder Dashboard
     } catch (error: any) {
-      console.error("Kompletter Fehler:", error); // Logge den gesamten Fehler
-      console.error(
-        "Fehlerdetails:",
-        error.response?.status,
-        error.response?.headers
-      );
+      console.error(error); // Logge den gesamten Fehler
     }
   };
 
@@ -52,31 +53,31 @@ export function Registration() {
       <Title order={2}>Registration</Title>
       <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
         <TextInput
-          label="Username"
-          placeholder="Userame"
+          label={t("registration.username")}
+          placeholder={t("registration.username")}
           key={form.key("username")}
           {...form.getInputProps("username")}
         />
         <PasswordInput
           mt="sm"
-          label="Password"
-          placeholder="Password"
+          label={t("registration.password")}
+          placeholder={t("registration.password")}
           key={form.key("password")}
           {...form.getInputProps("password")}
           visibilityToggleIcon={({ reveal }) =>
             reveal ? <IconEye size={20} /> : <IconEyeOff size={20} />
           }
         />
-         <PasswordInput
+        <PasswordInput
           mt="sm"
-          label="Confirm password"
-          placeholder="Confirm password"
-          key={form.key('confirmPassword')}
-          {...form.getInputProps('confirmPassword')}
+          label={t("registration.confirmPassword")}
+          placeholder={t("registration.confirmPassword")}
+          key={form.key("confirmPassword")}
+          {...form.getInputProps("confirmPassword")}
         />
         <Group justify="center" mt="xs">
           <Button type="submit" mt="xs" variant="filled">
-            Submit
+            {t("registration.registBtn")}
           </Button>
         </Group>
       </form>

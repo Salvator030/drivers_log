@@ -5,15 +5,16 @@ import { Login } from "../Authentication/Login/Login";
 import { Authentication } from "../Authentication/Authentication";
 import { useJwtStore } from "../../stores/useJwtStore";
 import { DriversLog } from "../DriversLog/DriversLog";
+import { useTranslation } from "react-i18next";
 
 export function MainContainer() {
 
   const jwt = useJwtStore((state) => state.jwt); // Zustand-Hook zum Abrufen des JWT-Token
-
+  const { t, i18n } = useTranslation();
 
   return (
     <>
-      <Title order={1}>Drivers Log</Title>
+      <Title order={1}>{t('mainContainer.title')}</Title>
       {jwt != null ?  <DriversLog/> : <Authentication/>}
       
     </>
