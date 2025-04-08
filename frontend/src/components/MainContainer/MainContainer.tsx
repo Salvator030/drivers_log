@@ -3,7 +3,7 @@ import { Registration } from "../Authentication/Registration/Registration";
 import { Button, Title } from "@mantine/core";
 import { Login } from "../Authentication/Login/Login";
 import { Authentication } from "../Authentication/Authentication";
-import { useJwtStore } from "../../hooks/useJwtStore";
+import { useJwtStore } from "../../stores/useJwtStore";
 import { DriversLog } from "../DriversLog/DriversLog";
 import { useTranslation } from "react-i18next";
 

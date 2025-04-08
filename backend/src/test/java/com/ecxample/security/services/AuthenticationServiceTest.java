@@ -6,10 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-import com.ecxample.security.models.ApplicationUser;
-import com.ecxample.security.models.Role;
-import com.ecxample.security.repository.UserRepository;
-import com.ecxample.tenant.services.TenantService;
+import com.example.security.models.ApplicationUser;
+import com.example.security.models.Role;
+import com.example.security.repository.UserRepository;
+import com.example.security.services.AuthenticationService;
+import com.example.tenant.services.TenantService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;

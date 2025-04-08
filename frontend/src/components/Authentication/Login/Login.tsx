@@ -1,4 +1,3 @@
-import React from 'react';
 import {
   Container,
   Title,
@@ -7,10 +6,8 @@ import {
   Group,
   Button,
 } from "@mantine/core";
-import { useForm } from "@mantine/form";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
-import axios from "axios";
-import { useJwtStore } from '../../../hooks/useJwtStore';
+import { useLogin } from '../../../hooks/useLogin';
 import { useTranslation } from 'react-i18next';
 
 export function Login() {

@@ -8,8 +8,7 @@ import {
   Container,
 } from "@mantine/core";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
-import axios from "axios";
-import { FormEvent } from "react";
+import { registerRequest, LogingProps } from "../../../api/auth";
 import { useTranslation } from "react-i18next";
 
 export function Registration() {
@@ -36,14 +35,10 @@ const {t, i18n } = useTranslation();
 },
   });
 
-  const handleSubmit = async (values: {}) => {
+  const handleSubmit = async (values: LogingProps) => {
     try {
       console.log("Form values:", values);
-      const response = await axios.post(
-        "http://localhost:8080/auth/register",
-        values
-      );
-      console.log("Registrierung erfolgreich:", response.data);
+      const response = registerRequest(values); // API-Request
       // Weiterleitung zur Login-Seite oder Dashboard
     } catch (error: any) {
       console.error("Kompletter Fehler:", error); // Logge den gesamten Fehler

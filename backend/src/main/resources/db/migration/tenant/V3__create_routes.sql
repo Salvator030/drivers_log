@@ -1,7 +1,6 @@
 -- Tabelle für Routen (abhängig von addresses)
 CREATE TABLE IF NOT EXISTS routes (
     route_id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(255) NOT NULL,
     start_address_id BIGINT NOT NULL,
     destination_address_id BIGINT NOT NULL,
     distance DOUBLE NOT NULL,
