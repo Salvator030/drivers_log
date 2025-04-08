@@ -8,8 +8,9 @@ import {
 } from "@tabler/icons-react";
 
 import classes from "./NavbarSimple.module.css";
-import { useMainContentStore } from "../../../hooks/useMainContentStore";
+
 import { useTranslation } from "react-i18next";
+import { useMainContentStore } from "../../../stores/useMainContentStore";
 
 
 

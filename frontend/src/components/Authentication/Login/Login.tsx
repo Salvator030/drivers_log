@@ -9,10 +9,15 @@ import {
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { useLogin } from '../../../hooks/useLogin';
 import { useTranslation } from 'react-i18next';
+import { useJwtStore } from "../../../stores/useJwtStore";
+import { useForm } from "@mantine/form";
+import { loginRequest } from "../../../api/auth";
 
 export function Login() {
 const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen des JWT-Token
 const { t, i18n } = useTranslation();
+
+
   const form = useForm({
     mode: "uncontrolled",
     initialValues: {
@@ -23,32 +28,24 @@ const { t, i18n } = useTranslation();
     // functions will be used to validate values at corresponding key
     validate: {
       username: (value: string) =>
-        value.length < 3 ? "Name must have at least 2 letters" : null,
+        value.length < 3 ? t("login.validate.username") : null,
       password: (value: string) =>
         /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{7,}$/.test(value)
           ? null
-          : "Password must heve at least 7 characters, one uppercase letter, one number and one special character",
+          : t("login.validate.pasword"),
     },
   });
 
-  const handleSubmit = async (values: {}) => {
+  const handleSubmit = async (values: { username: string;
+    password: string;}) => {
     try {
-      console.log("Form values:", values);
-      const response = await axios.post(
-        "http://localhost:8080/auth/login",
-        values
-      );
-      console.log("Login erfolgreich:", response.data.jwt);
-      setJwt(response.data.jwt); // Setze den JWT-Token im Zustand
+      const response = await loginRequest(values);
+      console.log("res: ",response)
+      setJwt(response); // Setze den JWT-Token im Zustand
     //   console.log("Login erfolgreich:", jwtToken);
       // Weiterleitung zur Login-Seite oder Dashboard
     } catch (error: any) {
-      console.error("Kompletter Fehler:", error); // Logge den gesamten Fehler
-      console.error(
-        "Fehlerdetails:",
-        error.response?.status,
-        error.response?.headers
-      );
+      console.error( error); // Logge den gesamten Fehler
     }
   };
 

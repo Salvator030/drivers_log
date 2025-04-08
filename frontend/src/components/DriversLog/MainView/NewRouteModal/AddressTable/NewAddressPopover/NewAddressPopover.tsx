@@ -3,9 +3,10 @@ import { hasLength, isNotEmpty, useForm } from "@mantine/form";
 import { IconPlus, IconX, IconCheck } from "@tabler/icons-react";
 import { useNewAddressPopover } from "../../../../../../hooks/useNewAddressPopover";
 import classes from "./NewAddressPopover.module.css"
+import { useTranslation } from "react-i18next";
 export function NewAddressPopover(){
 
-     
+       const { t, i18n } = useTranslation();
     const {form, isOpen,handlePopover, handleSubmit} = useNewAddressPopover()
   
 
@@ -21,22 +22,22 @@ export function NewAddressPopover(){
               <form onSubmit={form.onSubmit((values) => handleSubmit(values))}>
               <Grid>
                 <Grid.Col span={12}>
-                  <TextInput label="Name" key={form.key('name')}  {...form.getInputProps('name')}/>
+                  <TextInput label={t('newAddressPopover.name')} key={form.key('name')}  {...form.getInputProps('name')}/>
                 </Grid.Col>
                 <Grid.Col span={8}>
-                  <TextInput label="Straßenname" key={form.key('streetName')}  {...form.getInputProps('streetName')} />
+                  <TextInput label={t('newAddressPopover.street')} key={form.key('streetName')}  {...form.getInputProps('streetName')} />
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <TextInput label="Haus Nr." key={form.key('houseNumber')}  {...form.getInputProps('houseNumber')}/>
+                  <TextInput label={t('newAddressPopover.hnr')} key={form.key('houseNumber')}  {...form.getInputProps('houseNumber')}/>
                 </Grid.Col>
                 <Grid.Col span={4}>
-                  <TextInput label="PLZ"key={form.key('plz')}  {...form.getInputProps('plz')} />
+                  <TextInput label={t('newAddressPopover.plz')} key={form.key('plz')}  {...form.getInputProps('plz')} />
                 </Grid.Col>
                 <Grid.Col span={8}>
-                  <TextInput label="Ort" key={form.key('place')}  {...form.getInputProps('place')}/>
+                  <TextInput label={t('newAddressPopover.place')} key={form.key('place')}  {...form.getInputProps('place')}/>
                 </Grid.Col>
                 <Grid.Col span={12}>
-                  <TextInput label="Info" key={form.key('info')} {...form.getInputProps('info')} />
+                  <TextInput label={t('newAddressPopover.info')} key={form.key('info')} {...form.getInputProps('info')} />
                 </Grid.Col>
               </Grid>
               <Group  justify="space-between" className={classes.btnGroup}>

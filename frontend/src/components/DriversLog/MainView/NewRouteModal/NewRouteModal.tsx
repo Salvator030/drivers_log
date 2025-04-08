@@ -20,8 +20,10 @@ import { useField, useForm } from "@mantine/form";
 import classes from "./NewRouteModal.module.css";
 import { useApi } from "../../../../hooks/useApi";
 import { Route } from "../../../../types";
+import { useTranslation } from "react-i18next";
 
 export function NewRouteModal() {
+     const { t, i18n } = useTranslation();
   const {
     isOpen,
     startAddress,
@@ -48,7 +50,7 @@ export function NewRouteModal() {
     initialValue: "",
     validateOnBlur: true,
     validate: (value) =>
-      /^\d{1,}([,.]\d{1,2})?$/.test(value) ? null : "Bitte eine ZAhl",
+      /^\d{1,}([,.]\d{1,2})?$/.test(value) ? null : t('newRouteModal.validateDistance'),
   });
 
   const { handleNewRoute } = useApi();
@@ -91,19 +93,19 @@ export function NewRouteModal() {
           {(!endAdress || !startAddress) && <AddressTable />}
           {endAdress && !distance && (
             <>
-              <TextInput label="entfenung" {...field.getInputProps()} />
+              <TextInput label={ t('newRouteModal.lable')} {...field.getInputProps()} />
               <Button onClick={handleOkBtn}>Ok</Button>
             </>
           )}
 
-          {distance && <Button onClick={handleSaveBtn}>Save</Button>}
+          {distance && <Button onClick={handleSaveBtn}>{ t('newRouteModal.lable.saveBtn')}</Button>}
         </Grid.Col>
         <Grid.Col span={4}>
           <NewRouteTimeline />
         </Grid.Col>
       </Grid>
       <div className={classes.backBtnDiv}>
-        {startAddress && <Button onClick={back}>zurück</Button>}
+        {startAddress && <Button onClick={back}>{ t('newRouteModal.backBtn')}</Button>}
       </div>
     </Modal>
   );
