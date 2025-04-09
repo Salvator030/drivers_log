@@ -1,8 +1,8 @@
 import { useState } from "react";
 import {
-  Icon2fa,
+  
   IconCalendarWeek,
-  IconRoute,
+  
   IconLogout,
   IconSettings,
 } from "@tabler/icons-react";
@@ -23,7 +23,6 @@ export function NavbarSimple() {
 const data = [
 
   { link: "", label: t('navbarSimple.lable.calendar'), icon: IconCalendarWeek },
-  { link: "", label: t('navbarSimple.lable.routes'), icon: IconRoute },
   { link: "", label: t('navbarSimple.lable.options'), icon: IconSettings },
 ];
 

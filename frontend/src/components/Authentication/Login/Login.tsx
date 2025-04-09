@@ -13,41 +13,13 @@ import { useJwtStore } from "../../../stores/useJwtStore";
 import { useForm } from "@mantine/form";
 import { loginRequest } from "../../../api/auth";
 
+
 export function Login() {
-const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen des JWT-Token
+  const  {form,handleSubmit } = useLogin();
 const { t, i18n } = useTranslation();
 
 
-  const form = useForm({
-    mode: "uncontrolled",
-    initialValues: {
-      username: "",
-      password: "",
-    },
-
-    // functions will be used to validate values at corresponding key
-    validate: {
-      username: (value: string) =>
-        value.length < 3 ? t("login.validate.username") : null,
-      password: (value: string) =>
-        /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\d]).{7,}$/.test(value)
-          ? null
-          : t("login.validate.pasword"),
-    },
-  });
-
-  const handleSubmit = async (values: { username: string;
-    password: string;}) => {
-    try {
-      const response = await loginRequest(values);
-      console.log("res: ",response)
-      setJwt(response); // Setze den JWT-Token im Zustand
-    //   console.log("Login erfolgreich:", jwtToken);
-      // Weiterleitung zur Login-Seite oder Dashboard
-    } catch (error: any) {
-      console.error( error); // Logge den gesamten Fehler
-    }
-  };
+ 
 
   return (
     <Container size="xs">

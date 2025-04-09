@@ -1,11 +1,13 @@
 import { useShallow } from "zustand/shallow";
 import { useAddressStore } from "../stores/useAddressStore";
 import { useJwtStore } from "../stores/useJwtStore";
-import { Address, Route } from "../types";
+import { Address, DrivenRoute, Route } from "../types";
 import { useStreetStore } from "../stores/useStreetSrore";
 import { usePlaceStore } from "../stores/usePlaceStor";
 import { usePlzStore } from "../stores/usePlzStore";
 import { useRouteStore } from "../stores/useRouteStore";
+import { DatesRangeValue } from "@mantine/dates";
+import { useDriveRouteStore } from "../stores/useDrivenRoutesStore";
 
 export const useApi = () => {
   const jwt = useJwtStore((state) => state.jwt);
@@ -46,13 +48,20 @@ export const useApi = () => {
     }))
   )
 
+  const {createDrivenRoute} = useDriveRouteStore(useShallow((state) => ({
+    createDrivenRoute: state.createDrivenRoute,
+  })))
+
   const fetchAllData = async () => {
+  
     fetchAddresses();
     fetchStreet();
     fetchPlaces();
     fetchPlz();
     fetchRoutes();
   };
+
+
 
   const handleNewAddress = async (addressData: Address) => {
     try {
@@ -72,9 +81,13 @@ export const useApi = () => {
     await createRoute(routeData);
   }
 
+  const handelGetDrivenRouteBeetwenDates = async (dRoute: DrivenRoute) =>  {
+    await createDrivenRoute(dRoute);
+    };
   return {
     handleNewAddress,
     handleNewRoute,
     fetchAllData,
   };
-};
+
+}

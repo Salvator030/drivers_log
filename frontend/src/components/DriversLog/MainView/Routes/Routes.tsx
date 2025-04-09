@@ -10,7 +10,7 @@ export function Routes() {
   return (
     <>
     <Stack>
-        <Title >{t('navbarSimple.lable.routes')}</Title>
+        <Title order={3}>{t('navbarSimple.lable.routes')}</Title>
         <RoutesTable/>
         <ActionIcon onClick={() => setIsOpen(true)}>
             <IconPlus />

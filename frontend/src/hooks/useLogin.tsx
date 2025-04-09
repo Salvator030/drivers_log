@@ -32,7 +32,9 @@ const {fetchAllData} = useApi()
       const response = await loginRequest(values); // API-Request
       console.log("Login erfolgreich:", response);
       setJwt(response); // Setze den JWT-Token im Zustand
-      fetchAllData()
+      console.log("Try Fetch all data")
+      fetchAllData();
+      console.log("Fetch all data")
     } catch (error: any) {
       console.error("Kompletter Fehler:", error); // Logge den gesamten Fehler
       console.error(
