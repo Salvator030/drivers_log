@@ -33,3 +33,8 @@ export type Route = {
     distance: number;
 
 }
+    export type DrivenRoute = {
+        drivenRouteId: number,
+        date: Date,
+        route: Route,
+    }
