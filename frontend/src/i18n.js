@@ -71,6 +71,9 @@ const resources = {
         start: "Start Address",
         dest: "End Address",
         dist: "Destination"
+      },
+      drivenRoutes: {
+        title: "Driven"
       }
 
     },
@@ -142,6 +145,9 @@ const resources = {
         start: "Start Adresse",
         dest: "Ziel Adresse",
         dist: "Entfernung"
+      },
+      drivenRoutes: {
+        title: "Driven"
       }
     },
   },
