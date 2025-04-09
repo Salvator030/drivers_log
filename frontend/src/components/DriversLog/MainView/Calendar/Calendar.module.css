@@ -1,0 +1,12 @@
+.levelsGroup {
+    height: 500px;
+}
+
+.calendarHeaderControl {
+    width: 10%;
+    height: 10%;
+}
+
+.calendarHeaderLevel{
+    margin-right: 20px;
+}
