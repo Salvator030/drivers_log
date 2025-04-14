@@ -111,6 +111,7 @@ public class SecurityConfiguration {
                     auth.requestMatchers("/api/place/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers("/api/plz/**").hasAnyRole("ADMIN", "USER");
                     auth.requestMatchers("/api/route/**").hasAnyRole("ADMIN", "USER");
+                    auth.requestMatchers("/api//drivenroute/**").hasAnyRole("ADMIN", "USER");
                     auth.anyRequest().authenticated();
                 });
         http.addFilterBefore(tenantFilter, UsernamePasswordAuthenticationFilter.class);
