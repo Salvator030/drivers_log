@@ -32,7 +32,7 @@ const data = [
       className={classes.link}
       data-active={item.label === content || undefined}
       href={item.link}
-      key={item.label}
+      key={`links_${item.label}`}
       onClick={(event) => {
         event.preventDefault();
         setContent(item.label);
