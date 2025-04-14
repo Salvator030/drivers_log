@@ -8,6 +8,7 @@ import { usePlzStore } from "../stores/usePlzStore";
 import { useRouteStore } from "../stores/useRouteStore";
 import { DatesRangeValue } from "@mantine/dates";
 import { useDriveRouteStore } from "../stores/useDrivenRoutesStore";
+import { DrivenRoutes } from "../components/DriversLog/MainView/Calendar/DrivenRoutes/DrivenRoutes";
 
 export const useApi = () => {
   const jwt = useJwtStore((state) => state.jwt);
@@ -18,7 +19,6 @@ export const useApi = () => {
       createAddress: state.createAddress,
     }))
   );
-
 
   const { fetchStreet, addStreet } = useStreetStore(
     useShallow((state) => ({
@@ -41,27 +41,28 @@ export const useApi = () => {
     }))
   );
 
-  const {fetchRoutes, createRoute} = useRouteStore(
+  const { fetchRoutes, createRoute } = useRouteStore(
     useShallow((state) => ({
       fetchRoutes: state.fetchRoutes,
-      createRoute: state.createRoute
+      createRoute: state.createRoute,
     }))
-  )
+  );
 
-  const {createDrivenRoute} = useDriveRouteStore(useShallow((state) => ({
-    createDrivenRoute: state.createDrivenRoute,
-  })))
+  const { createDrivenRoute,fetchDrivenRoutsByMonth } = useDriveRouteStore(
+    useShallow((state) => ({
+      createDrivenRoute: state.createDrivenRoute,
+      fetchDrivenRoutsByMonth: state.fetchDrivenRoutsByMonth
+    }))
+  );
 
   const fetchAllData = async () => {
-  
     fetchAddresses();
     fetchStreet();
     fetchPlaces();
     fetchPlz();
     fetchRoutes();
+    fetchDrivenRoutsByMonth(new Date(Date.now()));
   };
-
-
 
   const handleNewAddress = async (addressData: Address) => {
     try {
@@ -75,19 +76,20 @@ export const useApi = () => {
     }
   };
 
-
-
-  const handleNewRoute = async (routeData: Route) =>{
+  const handleNewRoute = async (routeData: Route) => {
     await createRoute(routeData);
-  }
+  };
 
-  const handelGetDrivenRouteBeetwenDates = async (dRoute: DrivenRoute) =>  {
-    await createDrivenRoute(dRoute);
-    };
+  const handleCreateDrivenRoute = async (dRouteData: DrivenRoute) => {
+    createDrivenRoute(dRouteData);
+  };
+  // const handelGetDrivenRouteBeetwenDates = async (dRoute: DrivenRoute) =>  {
+  //   await createDrivenRoute(dRoute);
+  //   };
   return {
     handleNewAddress,
     handleNewRoute,
     fetchAllData,
+    handleCreateDrivenRoute
   };
-
-}
+};
