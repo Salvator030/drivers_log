@@ -1,6 +1,6 @@
 import { Text } from "@mantine/core";
 import { useMainContentStore } from "../../../stores/useMainContentStore";
-import { Routes } from "./Routes/Routes";
+import { Routes } from "./Calendar/Routes/Routes";
 import { NewRouteModal } from "./NewRouteModal/NewRouteModal";
 import { useTranslation } from "react-i18next";
 import { Calendar } from "./Calendar/Calendar";
