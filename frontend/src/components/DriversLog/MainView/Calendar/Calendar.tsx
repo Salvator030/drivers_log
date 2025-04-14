@@ -1,23 +1,35 @@
-import { px, Title } from "@mantine/core";
-import { DatePicker, DatesProvider, DatesRangeValue } from "@mantine/dates";
+import { Grid } from "@mantine/core";
+import { DatePicker, DatesProvider } from "@mantine/dates";
 import { useState } from "react";
 import 'dayjs/locale/de';
-import classes from "./Calendar.module.css";
-import { Routes } from "../Routes/Routes";
+import { Routes } from "./Routes/Routes";
+import { DrivenRoutes } from "./DrivenRoutes/DrivenRoutes";
 
 export function Calendar() {
-  const [value, setValue] = useState<DatesRangeValue | undefined>();
+
+  const [value, setValue] = useState<[Date | null, Date | null]>([null, null]);
+ 
+  // const {datesRangeValue, setDatesRangeValue} =  useDataPickerStore(useShallow((state) => ({
+  //   datesRangeValue: state.datesRangeValue,
+  //   setDatesRangeValue: state.setDataRAngeValue
+  // })))
   return (
     <>
-      <Title order={3}>Kalender</Title>
-      <DatesProvider settings={{ locale: 'de' }}>
+   
+      <Grid mb={32}>
+      <DatesProvider settings={{ locale: 'de' }} >
       <DatePicker
+      size="lg"
         type="range"
         value={value}
         onChange={setValue}
+        defaultDate={new Date(Date.now())}
+        allowSingleDateInRange 
       />
           </DatesProvider>
-          <Routes/>
+          <DrivenRoutes datesRangeValue={value}/>
+          </Grid>
+          <Routes dateRange={value}/>
     </>
   );
 }
