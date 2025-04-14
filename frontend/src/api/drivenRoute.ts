@@ -3,7 +3,7 @@ import { DrivenRoute } from "../types";
 
 export const fetchDrivenRoutesByDates = async (
   jwt: string,
-  dateRange: Omit<DatesRangeValue, "">
+  dateRange: DatesRangeValue
 ) => {
   console.log("get Drivenroutes with data:", dateRange);
   const response = await fetch(
@@ -26,11 +26,11 @@ export const fetchDrivenRoutesByDates = async (
 };
 
 
-export const createDrivenRoureRequest = async (
+export const createDrivenRoutesRequest = async (
     jwt: string,
-    drivenRoute: Omit<DrivenRoute, "drivenRouteId">
+    drivenRoutes: Omit<DrivenRoute, "drivenRouteId">
   ) => {
-    console.log("get Drivenroutes with data:", drivenRoute);
+    console.log("get Drivenroutes with data:", drivenRoutes);
     const response = await fetch(
       "http://localhost:8080/api/drivenroute/create",
       {
@@ -40,7 +40,31 @@ export const createDrivenRoureRequest = async (
           Authorization: `Bearer ${jwt}`,
         },
   
-        body: JSON.stringify(drivenRoute),
+        body: JSON.stringify(drivenRoutes),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to fetch drivenrotes");
+    }
+    return response.json();
+  };
+
+  export const fetchDrivenRoutesByMonth = async (
+    jwt: string,
+    date: Date
+  ) => {
+    console.log("get Drivenroutes with month:", date);
+    const response = await fetch(
+      "http://localhost:8080/api/drivenroute/month",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+  
+        body: JSON.stringify(date),
       }
     );
     if (!response.ok) {
