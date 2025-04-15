@@ -11,6 +11,7 @@ export function RoutesTableRow(probs: TableRowProps) {
   const [selected, setSelected] = useState<boolean>(false);
   return (
     <Table.Tr
+    key={`dRouteTable_${probs.route.routeId}`}
       style={selected ? { backgroundColor: "gray" } : {}}
       onClick={() => {
         setSelected(!selected);
