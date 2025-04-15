@@ -7,6 +7,7 @@ import { useDriveRouteStore } from "../stores/useDrivenRoutesStore";
 import { DatesRangeValue } from "@mantine/dates";
 import { DrivenRoute, FullValueRoute, Route } from "../types";
 import { useApi } from "./useApi";
+import { useNewRouteModalStore } from "../stores/useNewRouteModalStore";
 
 
 
@@ -22,8 +23,12 @@ export const useRoute = () => {
   };
   const routes = useRouteStore((state) => state.routes);
   const addresses = useAddressStore((state) => state.addresses);
-
+const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
   const {handleCreateDrivenRoute} = useApi();
+
+  const handelNewRoteBtn = () => {
+    setIsOpen(true);
+  }
 
   const handleSaveRoutesBtn = (dates: DatesRangeValue | undefined) => {
     // Daten auslesen
@@ -90,5 +95,5 @@ export const useRoute = () => {
 
 
 
-  return { changeSelectedRoutes, handleSaveRoutesBtn,tableBody };
+  return { changeSelectedRoutes, handleSaveRoutesBtn,handelNewRoteBtn ,tableBody };
 };
