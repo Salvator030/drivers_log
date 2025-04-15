@@ -5,6 +5,7 @@ import { DatesRangeValue } from "@mantine/dates";
 import { useJwtStore } from "./useJwtStore";
 import {
   createDrivenRoutesRequest,
+  deletDrivenRoutesRequest,
   fetchDrivenRoutesByDates,
   fetchDrivenRoutesByMonth,
 } from "../api/drivenRoute";
@@ -13,13 +14,14 @@ interface DrivenRouteState {
   drivenRoutes: DrivenRoute[] | null;
   fetchDrivenRoutsByDate: (datesValue: DatesRangeValue) => Promise<void>;
   createDrivenRoute: (drivenRoute: DrivenRoute) => Promise<any>;
-  fetchDrivenRoutsByMonth: (date: Date) => Promise<any>
+  deletDrivenRoutes: (deletDrivenRoutes: DrivenRoute[]) => void;
+  fetchDrivenRoutsByMonth: (date: Date) => Promise<any>;
   clearDrivenRoutes: () => void;
 }
 
 export const useDriveRouteStore = create<DrivenRouteState>()(
   persist(
-    (set) => ({
+    (set,get) => ({
       drivenRoutes: null,
 
       fetchDrivenRoutsByDate: async (datesValue: DatesRangeValue) => {
@@ -36,6 +38,31 @@ export const useDriveRouteStore = create<DrivenRouteState>()(
               routeId: item.routeId,
             })),
           });
+        } catch (error) {
+          if (error instanceof Error) {
+            throw new Error(error.message);
+          }
+        }
+      },
+      deletDrivenRoutes: async (deletDrivenRoutes: DrivenRoute[]) => {
+        try {
+         
+          const jwt = useJwtStore.getState().jwt;
+          if (!jwt) throw new Error("No JWT available");
+          deletDrivenRoutesRequest(jwt, deletDrivenRoutes);
+          set((state) => {
+            if (!state.drivenRoutes) return state;
+      
+            // Erstelle ein neues Array mit gefilterten Einträgen
+            const updatedRoutes = state.drivenRoutes.filter(
+              (route) => !deletDrivenRoutes.some(
+                (dRoute) => dRoute.drivenRouteId === route.drivenRouteId
+              )
+            );
+      
+            return { drivenRoutes: updatedRoutes };
+          });
+
         } catch (error) {
           if (error instanceof Error) {
             throw new Error(error.message);
