@@ -2,6 +2,7 @@ package com.example.app.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,17 +44,27 @@ public class DrivenRouteServices {
         return convertToDto(entity);
     }
 
-     public List<DrivenRouteDto> getStreckenInMonat(LocalDate date) {
+    public List<DrivenRouteDto> getStreckenInMonat(LocalDate date) {
         // Ersten Tag des Monats (00:00:00)
         LocalDateTime startOfMonth = date.withDayOfMonth(1).atStartOfDay();
-        
         // Ersten Tag des nächsten Monats (00:00:00)
         LocalDateTime startOfNextMonth = date.plusMonths(1).withDayOfMonth(1).atStartOfDay();
-
         List<DrivenRoute> drivenRoutes = drivenRoureRepository.findDrivenRoutesInMonth(startOfMonth, startOfNextMonth).get();
         return drivenRoutes.stream()
-                           .map(this::convertToDto)
-                           .toList();
+                .map(this::convertToDto)
+                .toList();
+    }
+
+    public boolean deletDrivenRoutesByIds(List<DrivenRouteDto> drivenRoutes) {
+        System.err.println("DELET DRIVENROUTES");
+        List<Long> ids = new ArrayList<Long>();
+        drivenRoutes.forEach(dRoute -> {
+            System.err.println("dRoute.getDrivenRouteId()  " + dRoute.getDrivenRouteId() );
+            drivenRoureRepository.deleteById(dRoute.getDrivenRouteId());
+        });
+        System.err.println("IDS " + ids);
+        
+        return true;
     }
 
 }

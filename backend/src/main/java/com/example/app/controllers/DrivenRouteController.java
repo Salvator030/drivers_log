@@ -6,15 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.app.models.DrivenRouteDto;
-import com.example.app.repositorys.DrivenRoureRepository;
 import com.example.app.services.DrivenRouteServices;
-
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("/api/drivenroute")
@@ -36,5 +34,13 @@ public class DrivenRouteController {
         System.out.println("IM MONAT :" + drivenRoutes);
         return ResponseEntity.status(HttpStatus.CREATED).body(drivenRoutes);
     }
+
+    @PostMapping("/delet")
+    public ResponseEntity<?> postMethodName(@RequestBody List<DrivenRouteDto> drivenRouteDtos) {
+        drivenRouteServices.deletDrivenRoutesByIds(drivenRouteDtos);
+        
+        return ResponseEntity.ok().build();
+    }
+    
 
 }
