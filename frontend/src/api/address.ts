@@ -1,8 +1,10 @@
 import { Address } from "../types";
 
+const addresPrefix: string = "http://localhost:8080/api/address/";
+
 // address.ts
 export const fetchAddressRequest = async (jwt: string) => {
-  const response = await fetch("http://localhost:8080/api/address/getAll", {
+  const response = await fetch(`${addresPrefix}getAll`, {
     headers: {
       Authorization: `Bearer ${jwt}`,
     },
@@ -16,7 +18,7 @@ export const createAddressRequest = async (
   addressData: Omit<Address, 'id'>
 ) => {
   console.log("Creating address with data:", addressData);
-  const response = await fetch("http://localhost:8080/api/address/create", {
+  const response = await fetch(`${addresPrefix}create`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

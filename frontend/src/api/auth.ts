@@ -5,9 +5,11 @@ export interface LogingProps {
     password: string;
 }
 
+const authPrefix: string = "http://localhost:8080/api/auth/";
+
 export const loginRequest = async (values: LogingProps) => {
     const response = await axios.post(
-        "http://localhost:8080/api/auth/login",
+        `${authPrefix}login`,
         values);
     if (response.status === 200) {
         return response.data.jwt; // JWT-Token zurückgeben
@@ -18,7 +20,7 @@ export const loginRequest = async (values: LogingProps) => {
 
 export const registerRequest = async (values: LogingProps) => {
     const response = await axios.post(
-        "http://localhost:8080/api/auth/register",
+        `${authPrefix}register`,
         values);
     if (response.status === 200) {
         return response.data; // JWT-Token zurückgeben
