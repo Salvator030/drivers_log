@@ -73,3 +73,28 @@ export const createDrivenRoutesRequest = async (
     }
     return response.json();
   };
+
+  export const deletDrivenRoutesRequest = async (
+    jwt: string,
+    drivenRoutes: DrivenRoute[]
+  ) => {
+    console.log("delet Drivenroutes :", drivenRoutes);
+    const response = await fetch(
+      "http://localhost:8080/api/drivenroute/delet",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${jwt}`,
+        },
+  
+        body: JSON.stringify(drivenRoutes),
+      }
+    );
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || "Failed to delete drivenrotes");
+    }
+ 
+    return response.ok;
+  };
