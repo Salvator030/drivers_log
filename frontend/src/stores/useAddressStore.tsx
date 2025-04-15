@@ -6,7 +6,7 @@ import { Address } from "../types";
 import { useEffect } from "react";
 
 interface AddressState {
-  addresses: Address[] | null;
+  addresses: Address[] ;
   loading: boolean;
   error: string | null;
   fetchAddresses: () => Promise<void>;
@@ -17,7 +17,7 @@ interface AddressState {
 export const useAddressStore = create<AddressState>()(
   persist(
     (set, get) => ({
-      addresses: null,
+      addresses: [],
       loading: false,
       error: null,
       fetchAddresses: async () => {
@@ -50,7 +50,7 @@ export const useAddressStore = create<AddressState>()(
         }
       },
       
-      clearAddresses: () => set({ addresses: null }),
+      clearAddresses: () => set({ addresses: [] }),
 
       createAddress: async (addressData) => {
         set({ loading: true, error: null });

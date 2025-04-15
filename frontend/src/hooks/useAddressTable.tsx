@@ -21,7 +21,7 @@ export function useAddressTable() {
   useEffect(() => {
     if (addresses) {
       const rows = addresses.map((address, index) => (
-        <Table.Tr key={index} onClick={(e) => handleOnClickRow(address,e)}   >
+        <Table.Tr key={`tr_${index}`} onClick={(e) => handleOnClickRow(address,e)}   >
           <Table.Td>{address.name}</Table.Td>
           <Table.Td>{address.street}</Table.Td>
           <Table.Td>{address.houseNumber}</Table.Td>

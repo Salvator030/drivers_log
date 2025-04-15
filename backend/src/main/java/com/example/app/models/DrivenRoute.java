@@ -26,7 +26,7 @@ public class DrivenRoute {
     @JoinColumn(name = "route_id")
     private Route route;
 
-    protected DrivenRoute() {}
+    public DrivenRoute() {}
 
     public DrivenRoute(Date date, Route route) {
         this.date = date;

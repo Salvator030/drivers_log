@@ -40,6 +40,12 @@ const resources = {
           options: "Options",
         },
       },
+      route:{
+        btn:{
+          addRote:"Add",
+          newRoute:"New Route",
+        }
+      },
       routesTable: {
         startAddress: "Start Address",
         endAddress: "End Adresse",
@@ -71,6 +77,9 @@ const resources = {
         start: "Start Address",
         dest: "End Address",
         dist: "Destination"
+      },
+      drivenRoutes: {
+        title: "Driven"
       }
 
     },
@@ -111,6 +120,13 @@ const resources = {
           options: "Einstellungen",
         },
       },
+      route:{
+        btn:{
+          addRote:"Hinzufügen",
+          newRoute:"neue Strecke",
+        }
+      },
+
       routesTable: {
         startAddress: "Start Adresse",
         endAddress: "Ziel Adresse",
@@ -142,6 +158,9 @@ const resources = {
         start: "Start Adresse",
         dest: "Ziel Adresse",
         dist: "Entfernung"
+      },
+      drivenRoutes: {
+        title: "Gefahren"
       }
     },
   },

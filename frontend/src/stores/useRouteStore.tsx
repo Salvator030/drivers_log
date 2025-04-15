@@ -5,7 +5,7 @@ import { useJwtStore } from "./useJwtStore";
 import { createRouteRequest, fetchRoutesRequest } from "../api/route";
 
 interface RouteState{
-    routes: Route[] | null;
+    routes: Route[] ;
     fetchRoutes: () => Promise<void>;
     clearRoutes: () => void;
     createRoute: (route: Route) => Promise<Route>;
@@ -13,7 +13,7 @@ interface RouteState{
 
     export const useRouteStore = create<RouteState>()(
     persist((set) => ({
-        routes: null,
+        routes: [],
 
         fetchRoutes: async () => {   try {
             const jwt = useJwtStore.getState().jwt;
@@ -22,8 +22,8 @@ interface RouteState{
             const data = await fetchRoutesRequest(jwt);
             console.log('Fetchet Routes: ', data)
             set({
-                routes: data.map((item: Route) => ({
-                    id: item.routeId,
+                routes: data.map((item: Route) :Route=> ({
+                    routeId: item.routeId,
                     startAddressId: item.startAddressId,
                     endAddressId: item.endAddressId,
                     distance: item.distance
@@ -37,7 +37,7 @@ interface RouteState{
             }
         }},
 
-        clearRoutes: () => set({ routes: null }),
+        clearRoutes: () => set({ routes: [] }),
 
         createRoute: async (routeData: Route): Promise<Route> => {
           
