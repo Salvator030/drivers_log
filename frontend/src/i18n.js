@@ -42,8 +42,8 @@ const resources = {
       },
       route:{
         btn:{
-          addRote:"Hinzufügen",
-          newAddress:"neue Adresse",
+          addRote:"Add",
+          newRoute:"New Route",
         }
       },
       routesTable: {
@@ -123,7 +123,7 @@ const resources = {
       route:{
         btn:{
           addRote:"Hinzufügen",
-          newAddress:"neue Adresse",
+          newRoute:"neue Strecke",
         }
       },
 
