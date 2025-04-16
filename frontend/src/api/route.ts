@@ -1,7 +1,9 @@
 import { Route } from "../types";
 
+const routePrefix: string = "http://localhost:8080/api/route/";
+
 export const fetchRoutesRequest = async (jwt: string) => {
-    const response = await fetch("http://localhost:8080/api/route/getAll", {
+    const response = await fetch( `${routePrefix}getAll`, {
       headers: {
         Authorization: `Bearer ${jwt}`,
       },
@@ -16,7 +18,7 @@ export const fetchRoutesRequest = async (jwt: string) => {
     routeData: Omit<Route, 'id'>
   ) => {
     console.log("Creating route with data:", routeData);
-    const response = await fetch("http://localhost:8080/api/route/create", {
+    const response = await fetch(  `${routePrefix}create` , {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

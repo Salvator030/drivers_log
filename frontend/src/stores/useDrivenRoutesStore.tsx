@@ -6,68 +6,53 @@ import { useJwtStore } from "./useJwtStore";
 import {
   createDrivenRoutesRequest,
   deletDrivenRoutesRequest,
-  fetchDrivenRoutesByDates,
-  fetchDrivenRoutesByMonth,
+  fetchDrivenRoutesByDatesRequest,
+  fetchDrivenRoutesByMonthRequest,
 } from "../api/drivenRoute";
 
 interface DrivenRouteState {
-  drivenRoutes: DrivenRoute[] | null;
-  fetchDrivenRoutsByDate: (datesValue: DatesRangeValue) => Promise<void>;
-  createDrivenRoute: (drivenRoute: DrivenRoute) => Promise<any>;
-  deletDrivenRoutes: (deletDrivenRoutes: DrivenRoute[]) => void;
+  drivenRoutes: DrivenRoute[];
+  initDrivenRoutes: (dRoutes: DrivenRoute[]) => void;
+  addDrivenRoute: (drivenRoute: DrivenRoute) => void;
+  removeDrivenRoutes: (deletDrivenRoutes: DrivenRoute[]) => void;
   fetchDrivenRoutsByMonth: (date: Date) => Promise<any>;
   clearDrivenRoutes: () => void;
 }
 
 export const useDriveRouteStore = create<DrivenRouteState>()(
   persist(
-    (set,get) => ({
-      drivenRoutes: null,
+    (set, get) => ({
+      drivenRoutes: [],
 
-      fetchDrivenRoutsByDate: async (datesValue: DatesRangeValue) => {
-        try {
-          const jwt = useJwtStore.getState().jwt;
-          if (!jwt) throw new Error("No JWT available");
-
-          const data = await fetchDrivenRoutesByDates(jwt, datesValue);
-
-          set({
-            drivenRoutes: data.map((item: DrivenRoute) => ({
-              drivenRouteId: item.drivenRouteId,
-              date: new Date(item.date),
-              routeId: item.routeId,
-            })),
-          });
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          }
-        }
+      initDrivenRoutes: async (dRoutes: DrivenRoute[]) => {
+        set({
+          drivenRoutes: dRoutes.map((item: DrivenRoute) => ({
+            drivenRouteId: item.drivenRouteId,
+            date: new Date(item.date),
+            routeId: item.routeId,
+          })),
+        });
       },
-      deletDrivenRoutes: async (deletDrivenRoutes: DrivenRoute[]) => {
-        try {
-         
-          const jwt = useJwtStore.getState().jwt;
-          if (!jwt) throw new Error("No JWT available");
-          deletDrivenRoutesRequest(jwt, deletDrivenRoutes);
-          set((state) => {
-            if (!state.drivenRoutes) return state;
-      
-            // Erstelle ein neues Array mit gefilterten Einträgen
-            const updatedRoutes = state.drivenRoutes.filter(
-              (route) => !deletDrivenRoutes.some(
+      addDrivenRoute: (drivenRoute: DrivenRoute) => {
+        set((state) => ({
+          drivenRoutes: [...state.drivenRoutes, drivenRoute],
+        }));
+      },
+
+     removeDrivenRoutes: async (deletDrivenRoutes: DrivenRoute[]) => {
+        set((state) => {
+          if (!state.drivenRoutes) return state;
+
+          // Erstelle ein neues Array mit gefilterten Einträgen
+          const updatedRoutes = state.drivenRoutes.filter(
+            (route) =>
+              !deletDrivenRoutes.some(
                 (dRoute) => dRoute.drivenRouteId === route.drivenRouteId
               )
-            );
-      
-            return { drivenRoutes: updatedRoutes };
-          });
+          );
 
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          }
-        }
+          return { drivenRoutes: updatedRoutes };
+        });
       },
 
       fetchDrivenRoutsByMonth: async (date: Date) => {
@@ -75,7 +60,7 @@ export const useDriveRouteStore = create<DrivenRouteState>()(
           const jwt = useJwtStore.getState().jwt;
           if (!jwt) throw new Error("No JWT available");
 
-          const data = await fetchDrivenRoutesByMonth(jwt, date);
+          const data = await fetchDrivenRoutesByMonthRequest(jwt, date);
 
           set({
             drivenRoutes: data.map((item: DrivenRoute) => ({
@@ -91,30 +76,9 @@ export const useDriveRouteStore = create<DrivenRouteState>()(
         }
       },
 
-      createDrivenRoute: async (drivenRoute: DrivenRoute) => {
-        try {
-          const jwt = useJwtStore.getState().jwt;
-          if (!jwt) throw new Error("No JWT available");
-
-          const data = await createDrivenRoutesRequest(jwt, drivenRoute).then(
-            (dRoute) => {
-              set((state) => ({
-                drivenRoutes: [...(state.drivenRoutes || []), dRoute],
-              }));
-            }
-          );
-
-          return data;
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          }
-        }
-      },
-
-      clearDrivenRoutes: () =>
+     clearDrivenRoutes: () =>
         set({
-          drivenRoutes: null,
+          drivenRoutes: [],
         }),
     }),
     { name: "drivenroute-storage" }

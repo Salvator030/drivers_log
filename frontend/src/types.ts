@@ -1,5 +1,5 @@
 export type Address = {
-  id: number | null;
+  addressId: number | null;
   name: string;
   existingStreetsId: number | null;
   street: string | null;

@@ -1,52 +1,35 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { useJwtStore } from "./useJwtStore";
 import { Street } from "../types";
-import { fetchStreetsRequest } from "../api/street";
 
 interface StreetState {
-  streets: Street[] | null;
-  fetchStreet: () => Promise<void>;
+  streets: Street[];
   clearStreets: () => void;
-    addStreet: (street:Street) => void;
+  addStreet: (street: Street) => void;
+  initStreets: (streets: Street[]) => void;
 }
 
 export const useStreetStore = create<StreetState>()(
-    persist((set) => ({
-        streets: null,
-        fetchStreet: async () => {
-           
-            try {
-                const jwt = useJwtStore.getState().jwt;
-                if (!jwt) throw new Error("No JWT available");
+  persist(
+    (set) => ({
+      streets: [],
 
-                const data = await fetchStreetsRequest(jwt);
-                set({
-                    streets: data.map((item: Street) => ({
-                        id: item.streetId,
-                        street: item.name,
-                    
-                    })),
-                   
-                });
-            } catch (error) {
-                if (error instanceof Error) {
-                    throw new Error(error.message);
-                }
-            }
-        },
-        clearStreets: () => set({ streets: null }),
-        
-        addStreet:  (newStreet:Street) => {
-           
-            
-              set((state) => ({
-                    streets: state.streets ? [...state.streets, newStreet] : [newStreet],
-                 
-                }));
-           
-        },
+      clearStreets: () => set({ streets: [] }),
+
+      addStreet: (newStreet: Street) => {
+        set((state) => ({
+          streets: state.streets ? [...state.streets, newStreet] : [newStreet],
+        }));
+      },
+      initStreets: (streets: Street[]) => {
+        set({
+          streets: streets.map((item: Street) => ({
+            streetId: item.streetId,
+            name: item.name,
+          })),
+        });
+      },
     }),
     { name: "street-storage" }
-    )
-)
+  )
+);

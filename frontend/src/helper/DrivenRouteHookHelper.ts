@@ -36,10 +36,10 @@ export function fullValueRoute(routes: Route[], drivenRoute: DrivenRoute, addres
     
               const routeId = route?.routeId;
               const startAddress = addresses?.find(
-                (address: Address) => address.id === route?.startAddressId
+                (address: Address) => address.addressId === route?.startAddressId
               );
               const endAddress = addresses?.find(
-                (address: Address) => address.id === route?.endAddressId
+                (address: Address) => address.addressId === route?.endAddressId
               );
               const distance = route?.distance;
     

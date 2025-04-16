@@ -69,8 +69,8 @@ export function NewRouteModal() {
   const handleSaveBtn = () => {
     const route: Route = {
       routeId: null,
-      startAddressId: startAddress?.id ?? 0,
-      endAddressId: endAdress?.id ?? 0,
+      startAddressId: startAddress?.addressId ?? 0,
+      endAddressId: endAdress?.addressId ?? 0,
       distance: distance ?? 0,
     };
 
