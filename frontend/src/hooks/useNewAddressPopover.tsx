@@ -5,10 +5,7 @@ import {
   UseFormReturnType,
 } from "@mantine/form";
 import { useState } from "react";
-import { NewAddressPopover } from "../components/DriversLog/MainView/NewRouteModal/AddressTable/NewAddressPopover/NewAddressPopover";
 import { Address } from "../types";
-import { useAddressStore } from "../stores/useAddressStore";
-import { shallow } from "zustand/shallow";
 import { useApi } from "./useApi";
 
 interface NewAddressProps {
@@ -56,7 +53,7 @@ export const useNewAddressPopover = () => {
 
   const handleSubmit = (values: NewAddressProps) => {
     const addressPost: Address = {
-      id: null,
+      addressId: null,
       name: values.name,
       street: values.streetName,
       existingStreetsId: null,

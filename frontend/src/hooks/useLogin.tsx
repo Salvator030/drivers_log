@@ -4,9 +4,7 @@ import { useJwtStore } from "../stores/useJwtStore";
 import { useApi } from "./useApi";
 
 export const useLogin = () => {
-
-    const setJwt = useJwtStore((state) => state.setJwt); // Zustand-Hook zum Setzen des JWT-Token
-const {fetchAllData} = useApi()
+  const { handleLogin } = useApi();
   const form = useForm<LogingProps>({
     mode: "uncontrolled",
     initialValues: {
@@ -26,24 +24,8 @@ const {fetchAllData} = useApi()
   });
 
   const handleSubmit = async (values: LogingProps) => {
-    try {
-      console.log("Form values:", values);
-     
-      const response = await loginRequest(values); // API-Request
-      console.log("Login erfolgreich:", response);
-      setJwt(response); // Setze den JWT-Token im Zustand
-      console.log("Try Fetch all data")
-      fetchAllData();
-      console.log("Fetch all data")
-    } catch (error: any) {
-      console.error("Kompletter Fehler:", error); // Logge den gesamten Fehler
-      console.error(
-        "Fehlerdetails:",
-        error.response?.status,
-        error.response?.headers
-      );
-    }
+    handleLogin(values);
   };
 
-  return {form,handleSubmit}
-}
+  return { form, handleSubmit };
+};

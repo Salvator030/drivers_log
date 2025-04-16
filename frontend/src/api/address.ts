@@ -4,12 +4,13 @@ const addresPrefix: string = "http://localhost:8080/api/address/";
 
 // address.ts
 export const fetchAddressRequest = async (jwt: string) => {
+  console.log("jwt:", jwt);
   const response = await fetch(`${addresPrefix}getAll`, {
     headers: {
       Authorization: `Bearer ${jwt}`,
     },
   });
-  if (!response.ok) throw new Error('Network response was not ok');
+  if (!response.ok) {console.log("res ", response);throw new Error('Network response was not ok ' );}
   return response.json(); // Korrektur: json() muss aufgerufen werden
 };
 

@@ -1,11 +1,9 @@
 import { JSX, useEffect, useState } from "react";
 import { useRouteStore } from "../stores/useRouteStore";
-import { Table } from "@mantine/core";
 import { useAddressStore } from "../stores/useAddressStore";
 import { RoutesTableRow } from "../components/DriversLog/MainView/Calendar/RotesTable/RoutesTableRow";
-import { useDriveRouteStore } from "../stores/useDrivenRoutesStore";
 import { DatesRangeValue } from "@mantine/dates";
-import { DrivenRoute, FullValueRoute, Route } from "../types";
+import { DrivenRoute, FullValueRoute } from "../types";
 import { useApi } from "./useApi";
 import { useNewRouteModalStore } from "../stores/useNewRouteModalStore";
 
@@ -24,7 +22,7 @@ export const useRoute = () => {
   const routes = useRouteStore((state) => state.routes);
   const addresses = useAddressStore((state) => state.addresses);
 const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
-  const {handleCreateDrivenRoute} = useApi();
+  const {handleNewDrivenRoute} = useApi();
 
   const handelNewRoteBtn = () => {
     setIsOpen(true);
@@ -66,29 +64,33 @@ const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
 
     });
 
-    drivenRoutes.forEach(route => handleCreateDrivenRoute(route))
+    drivenRoutes.forEach(route => handleNewDrivenRoute(route))
   
   };
 
+
   useEffect(() => {  if (routes) {
     console.log("routes: ",routes)
+    console.log("addresses: ",addresses)
     const rows = routes.map((route) => {
       console.log("route.routeId: ", route.routeId)
       const startAddress = addresses?.find(
-        (address) => address.id === route.startAddressId
+        (address) => address.addressId === route.startAddressId
       );
+      console.log("startAddress: ", startAddress)
       const endAddress = addresses?.find(
-        (address) => address.id === route.endAddressId
+        (address) => address.addressId === route.endAddressId
       );
+      console.log("endAddress: ", endAddress)
       if (!startAddress || !endAddress) return null;
       const fullRoute:FullValueRoute = {routeId: route.routeId,startAddress: startAddress, endAddress:endAddress, distance: route.distance};
-  
+      console.log("fullRoute: ", fullRoute)
       return (
         <RoutesTableRow key={`route_${route.routeId}`} route={fullRoute} changeSelectedRoutes={changeSelectedRoutes}/>
       );
     })
     .filter((row): row is JSX.Element => row !== null); // Type Guard
-   
+   console.log("rows: ", rows)
     setTableBody(rows);
   }
   }, [addresses, routes]);

@@ -6,34 +6,25 @@ import {  Plz } from "../types";
 import { useJwtStore } from "./useJwtStore";
 
 interface PlzState {
-    plz: Plz[] | null;
+    plz: Plz[] ;
 
-    fetchPlz: () => Promise<void>;
+    initPlz: (plzs: Plz[]) => void;
     addPlz: (place: Plz) => void;
     clearPlz: () => void;
 }
 export const usePlzStore = create<PlzState>()(
   persist(      
     (set) => ({
-      plz: null,
-      fetchPlz: async () => {
-        try {
-          const jwt = useJwtStore.getState().jwt;
-          if (!jwt) throw new Error("No JWT available");
-
-          const data = await fetchPlzRequest(jwt);
+      plz: [],
+      initPlz: async (data ) => {
+   
           set({
             plz: data.map((item: Plz) => ({
-              id: item.plzId,
-              plz: item.name,
+              plzId: item.plzId,
+              name: item.name,
             })),
-          });
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          }
-        }
-      },
+        
+      });},
 
        addPlz: (newPlz: Plz) => {
         set((state) => ({
@@ -41,7 +32,7 @@ export const usePlzStore = create<PlzState>()(
         }));
       },
 
-      clearPlz: () => set({ plz: null }),
+      clearPlz: () => set({ plz: [] }),
 
      }),
     { name: "plz-storage" }

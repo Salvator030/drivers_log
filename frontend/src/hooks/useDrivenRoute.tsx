@@ -2,28 +2,21 @@ import { useShallow } from "zustand/shallow";
 import { useDriveRouteStore } from "../stores/useDrivenRoutesStore";
 import { JSX, useCallback, useEffect, useState } from "react";
 import { useRouteStore } from "../stores/useRouteStore";
-import { Address, DrivenRoute, FullValueRoute } from "../types";
+import { DrivenRoute } from "../types";
 import { useAddressStore } from "../stores/useAddressStore";
-import { RoutesTableRow } from "../components/DriversLog/MainView/Calendar/RotesTable/RoutesTableRow";
 import { Table, Title } from "@mantine/core";
-import { useDataPickerStore } from "../stores/useDataPickerStore";
 import {
   fullValueRoute,
   getAllDates,
   toFullDateString,
 } from "../helper/DrivenRouteHookHelper";
-import { stat } from "fs";
-import { deletDrivenRoutesRequest } from "../api/drivenRoute";
 import { DrivenRoutesTableRow } from "../components/DriversLog/MainView/Calendar/RotesTable/DrivenRoutesTableRow";
+import { useApi } from "./useApi";
 
 export const useDrivenRoute = (datesRangeValue: [Date | null, Date | null]) => {
   const routes = useRouteStore((state) => state.routes);
-  const { drivenRoutes, deletDrivenRoutes } = useDriveRouteStore(
-    useShallow((state) => ({
-      drivenRoutes: state.drivenRoutes,
-      deletDrivenRoutes: state.deletDrivenRoutes
-    }))
-  );
+  const  drivenRoutes = useDriveRouteStore(state=> state.drivenRoutes)
+  const{handleDeleteDrivenRoute } = useApi()
   const [tableBody, setTableBody] = useState<JSX.Element[]>([]);
   const addresses = useAddressStore((state) => state.addresses);
   // const datesRangeValue = useDataPickerStore((state) => state.datesRangeValue)
@@ -44,7 +37,7 @@ export const useDrivenRoute = (datesRangeValue: [Date | null, Date | null]) => {
     const selectedRoutes = Array.from(selectedRoutesIds).map((id) =>
       drivenRoutes?.find((route) => route.drivenRouteId === id)
     ).filter((route): route is DrivenRoute => route !== undefined);
-    deletDrivenRoutes(selectedRoutes);
+    handleDeleteDrivenRoute(selectedRoutes);
   } 
 
   const getFullValueRoute = useCallback(

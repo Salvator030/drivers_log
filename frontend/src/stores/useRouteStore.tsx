@@ -6,23 +6,18 @@ import { createRouteRequest, fetchRoutesRequest } from "../api/route";
 
 interface RouteState{
     routes: Route[] ;
-    fetchRoutes: () => Promise<void>;
+    initRoute: (routes: Route[]) => void;
     clearRoutes: () => void;
-    createRoute: (route: Route) => Promise<Route>;
+    addRoute: (route: Route) => void;
 }
 
     export const useRouteStore = create<RouteState>()(
     persist((set) => ({
         routes: [],
 
-        fetchRoutes: async () => {   try {
-            const jwt = useJwtStore.getState().jwt;
-            if (!jwt) throw new Error("No JWT available");
-
-            const data = await fetchRoutesRequest(jwt);
-            console.log('Fetchet Routes: ', data)
+        initRoute: async (routes) => {  
             set({
-                routes: data.map((item: Route) :Route=> ({
+                routes: routes.map((item: Route) :Route=> ({
                     routeId: item.routeId,
                     startAddressId: item.startAddressId,
                     endAddressId: item.endAddressId,
@@ -31,34 +26,16 @@ interface RouteState{
                 })),
                
             });
-        } catch (error) {
-            if (error instanceof Error) {
-                throw new Error(error.message);
-            }
-        }},
+       },
 
         clearRoutes: () => set({ routes: [] }),
 
-        createRoute: async (routeData: Route): Promise<Route> => {
-          
-                try {
-                  console.log("Creating address with data:", routeData);
-                  const jwt = useJwtStore.getState().jwt;
-                  console.log("JWT:", jwt);
-                  if (!jwt) throw new Error("Not authenticated");
-        
-                  const newRoute = await createRouteRequest(jwt, routeData);
-                  console.log("Created address:", newRoute);
-                  // Optimistic update
-                  set((state) => ({
-                    routes: [...(state.routes || []), newRoute],
-                    loading: false,
-                  }));
-                  return newRoute; // Rückgabe für die Verwendung in der Komponente
-                } catch (error) {
-                    console.error(error)
-                  throw error; // Für Fehlerbehandlung in der Komponente
-                }
+      addRoute: async (newRoute: Route) => {
+        set((state) => ({
+            routes: [...state.routes, newRoute],
+            loading: false,
+          }));
+               
               },
 
 

@@ -5,8 +5,8 @@ import { Place } from "../types";
 import { fetchPlacesRequest } from "../api/place";
 
 interface PlaceState {
-  places: Place[] | null;
-    fetchPlaces: () => Promise<void>;
+  places: Place[] ;
+    initPlace: (places: Place[]) => void;
     addPlace: (place: Place) => void;
     clearPlaces: () => void;
 }
@@ -14,24 +14,16 @@ interface PlaceState {
 export const usePlaceStore = create<PlaceState>()(
   persist(
     (set) => ({
-      places: null,
-      fetchPlaces: async () => {
-        try {
-          const jwt = useJwtStore.getState().jwt;
-          if (!jwt) throw new Error("No JWT available");
-
-          const data = await fetchPlacesRequest(jwt);
+      places: [],
+      initPlace: (places) => {
+    
           set({
-            places: data.map((item: Place) => ({
-              id: item.placeId,
+            places: places.map((item: Place) => ({
+              placeId: item.placeId,
               name: item.name,
             })),
           });
-        } catch (error) {
-          if (error instanceof Error) {
-            throw new Error(error.message);
-          }
-        }
+      
       },
 
        addPlace: (newPlace: Place) => {
@@ -40,7 +32,7 @@ export const usePlaceStore = create<PlaceState>()(
         }));
       },
 
-      clearPlaces: () => set({ places: null }),
+      clearPlaces: () => set({ places:[] }),
 
      
     }),

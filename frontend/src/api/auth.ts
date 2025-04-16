@@ -18,7 +18,7 @@ export const loginRequest = async (values: LogingProps) => {
     }
 }
 
-export const registerRequest = async (values: LogingProps) => {
+export const registRequest = async (values: LogingProps) => {
     const response = await axios.post(
         `${authPrefix}register`,
         values);
