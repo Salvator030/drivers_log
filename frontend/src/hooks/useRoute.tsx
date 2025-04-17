@@ -7,13 +7,10 @@ import { DrivenRoute, FullValueRoute } from "../types";
 import { useApi } from "./useApi";
 import { useNewRouteModalStore } from "../stores/useNewRouteModalStore";
 
-
-
-
 export const useRoute = () => {
   // const [tableBody, setTableBody] = useState<JSX.Element[]>([]);
   const [selectedRoutesIds] = useState<Set<number>>(new Set<number>());
-  const [tableBody, setTableBody] = useState<JSX.Element[]>([]) ;
+  const [tableBody, setTableBody] = useState<JSX.Element[]>([]);
   const changeSelectedRoutes = (id: number) => {
     selectedRoutesIds.has(id)
       ? selectedRoutesIds.delete(id)
@@ -21,12 +18,12 @@ export const useRoute = () => {
   };
   const routes = useRouteStore((state) => state.routes);
   const addresses = useAddressStore((state) => state.addresses);
-const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
-  const {handleNewDrivenRoute} = useApi();
+  const setIsOpen = useNewRouteModalStore((state) => state.setIsOpen);
+  const { handleNewDrivenRoute } = useApi();
 
   const handelNewRoteBtn = () => {
     setIsOpen(true);
-  }
+  };
 
   const handleSaveRoutesBtn = (dates: DatesRangeValue | undefined) => {
     // Daten auslesen
@@ -41,6 +38,8 @@ const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
           dateList.push(new Date(currentDate)); // Clone des Datums
           currentDate.setDate(currentDate.getDate() + 1); // Nächster Tag
         }
+      } else if (startDate && !endDate) {
+        dateList.push(new Date(startDate));
       }
     }
     console.log("dates: ", dateList);
@@ -49,7 +48,7 @@ const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
     let drivenRoutes: DrivenRoute[] = [];
     console.log("selectedRoutesIds: ", selectedRoutesIds);
     selectedRoutesIds.forEach((id) => {
-      console.log("id ",id)
+      console.log("id ", id);
       const route = routes.find((route) => route.routeId === id);
       const tempList: DrivenRoute[] = dateList.map((date) => {
         const droute: DrivenRoute = {
@@ -59,43 +58,54 @@ const setIsOpen = useNewRouteModalStore(state => state.setIsOpen)
         };
         return droute;
       });
-      console.log("tempList:", tempList)
-      drivenRoutes=  drivenRoutes.concat(tempList)
-
+      console.log("tempList:", tempList);
+      drivenRoutes = drivenRoutes.concat(tempList);
     });
 
-    drivenRoutes.forEach(route => handleNewDrivenRoute(route))
-  
+    drivenRoutes.forEach((route) => handleNewDrivenRoute(route));
   };
 
-
-  useEffect(() => {  if (routes) {
-    console.log("routes: ",routes)
-    console.log("addresses: ",addresses)
-    const rows = routes.map((route) => {
-      console.log("route.routeId: ", route.routeId)
-      const startAddress = addresses?.find(
-        (address) => address.addressId === route.startAddressId
-      );
-      console.log("startAddress: ", startAddress)
-      const endAddress = addresses?.find(
-        (address) => address.addressId === route.endAddressId
-      );
-      console.log("endAddress: ", endAddress)
-      if (!startAddress || !endAddress) return null;
-      const fullRoute:FullValueRoute = {routeId: route.routeId,startAddress: startAddress, endAddress:endAddress, distance: route.distance};
-      console.log("fullRoute: ", fullRoute)
-      return (
-        <RoutesTableRow key={`route_${route.routeId}`} route={fullRoute} changeSelectedRoutes={changeSelectedRoutes}/>
-      );
-    })
-    .filter((row): row is JSX.Element => row !== null); // Type Guard
-   console.log("rows: ", rows)
-    setTableBody(rows);
-  }
+  useEffect(() => {
+    if (routes) {
+      console.log("routes: ", routes);
+      console.log("addresses: ", addresses);
+      const rows = routes
+        .map((route) => {
+          console.log("route.routeId: ", route.routeId);
+          const startAddress = addresses?.find(
+            (address) => address.addressId === route.startAddressId
+          );
+          console.log("startAddress: ", startAddress);
+          const endAddress = addresses?.find(
+            (address) => address.addressId === route.endAddressId
+          );
+          console.log("endAddress: ", endAddress);
+          if (!startAddress || !endAddress) return null;
+          const fullRoute: FullValueRoute = {
+            routeId: route.routeId,
+            startAddress: startAddress,
+            endAddress: endAddress,
+            distance: route.distance,
+          };
+          console.log("fullRoute: ", fullRoute);
+          return (
+            <RoutesTableRow
+              key={`route_${route.routeId}`}
+              route={fullRoute}
+              changeSelectedRoutes={changeSelectedRoutes}
+            />
+          );
+        })
+        .filter((row): row is JSX.Element => row !== null); // Type Guard
+      console.log("rows: ", rows);
+      setTableBody(rows);
+    }
   }, [addresses, routes]);
 
-
-
-  return { changeSelectedRoutes, handleSaveRoutesBtn,handelNewRoteBtn ,tableBody };
+  return {
+    changeSelectedRoutes,
+    handleSaveRoutesBtn,
+    handelNewRoteBtn,
+    tableBody,
+  };
 };
